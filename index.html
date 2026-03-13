@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>测测你的天选职业 - AI 趣味测试</title>
+    <title>测测你的天选职业 - 专业版</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .gradient-bg {
@@ -33,41 +33,87 @@
     </style>
 </head>
 <body class="gradient-bg min-h-screen">
-    <!-- 开始页面 -->
-    <div id="start-page" class="container mx-auto px-4 py-16 max-w-2xl">
+    <!-- 密钥验证页面 -->
+    <div id="verify-page" class="container mx-auto px-4 py-16 max-w-2xl">
         <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-12 fade-in">
             <div class="text-center">
-                <div class="text-6xl mb-6">🎯</div>
+                <div class="text-6xl mb-6">🔑</div>
                 <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
-                    测测你的<span class="text-purple-600">天选职业</span>
+                    职业测试 <span class="text-purple-600">专业版</span>
                 </h1>
                 <p class="text-gray-600 text-lg mb-8">
-                    10 道趣味测试题，发现你命中注定的职业方向
+                    专业职业评估系统，帮助你发现天选职业方向
                 </p>
                 
-                <div class="bg-purple-50 rounded-xl p-6 mb-8">
-                    <div class="flex justify-around text-center">
-                        <div>
-                            <div class="text-2xl font-bold text-purple-600">10</div>
-                            <div class="text-sm text-gray-600">道测试题</div>
+                <!-- 价格说明 -->
+                <div class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-6 mb-8 border-2 border-purple-200">
+                    <div class="text-center mb-4">
+                        <p class="text-sm text-gray-500 mb-2">专业测试 · 完整报告</p>
+                        <p class="text-4xl font-bold text-purple-600">¥1.1</p>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 text-sm text-gray-700">
+                        <div class="flex items-center">
+                            <span class="text-green-500 mr-2">✓</span>
+                            <span>10 道专业测试题</span>
                         </div>
-                        <div>
-                            <div class="text-2xl font-bold text-purple-600">3</div>
-                            <div class="text-sm text-gray-600">分钟完成</div>
+                        <div class="flex items-center">
+                            <span class="text-green-500 mr-2">✓</span>
+                            <span>详细职业分析</span>
                         </div>
-                        <div>
-                            <div class="text-2xl font-bold text-purple-600">16</div>
-                            <div class="text-sm text-gray-600">种职业结果</div>
+                        <div class="flex items-center">
+                            <span class="text-green-500 mr-2">✓</span>
+                            <span>发展建议</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-green-500 mr-2">✓</span>
+                            <span>薪资范围参考</span>
                         </div>
                     </div>
                 </div>
 
-                <button onclick="startQuiz()" class="w-full bg-gradient-to-r from-purple-600 to-purple-700 text-white text-xl font-bold py-4 px-8 rounded-xl hover:from-purple-700 hover:to-purple-800 transition transform hover:scale-105 shadow-lg">
-                    开始测试 ✨
+                <!-- 购买步骤 -->
+                <div class="bg-blue-50 rounded-xl p-6 mb-8 text-left">
+                    <p class="font-bold text-blue-800 mb-3">📝 测试流程：</p>
+                    <ol class="space-y-2 text-sm text-gray-700">
+                        <li class="flex items-start">
+                            <span class="bg-blue-500 text-white rounded-full w-5 h-5 flex items-center justify-center flex-shrink-0 mr-2 text-xs">1</span>
+                            <span>点击下方按钮，前往闲鱼支付 ¥1.1</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="bg-blue-500 text-white rounded-full w-5 h-5 flex items-center justify-center flex-shrink-0 mr-2 text-xs">2</span>
+                            <span>卖家通过闲鱼发送测试密钥</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="bg-blue-500 text-white rounded-full w-5 h-5 flex items-center justify-center flex-shrink-0 mr-2 text-xs">3</span>
+                            <span>返回本页，输入密钥开始测试</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="bg-blue-500 text-white rounded-full w-5 h-5 flex items-center justify-center flex-shrink-0 mr-2 text-xs">4</span>
+                            <span>完成测试，立即获取完整报告</span>
+                        </li>
+                    </ol>
+                </div>
+
+                <!-- 密钥输入框 -->
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2 text-left">
+                        已有密钥？输入后开始测试
+                    </label>
+                    <input type="text" id="access-key-input" placeholder="CAREER-XXXX-XXXX" 
+                        class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none text-lg text-center font-mono tracking-wider uppercase"
+                        style="letter-spacing: 2px;">
+                </div>
+
+                <button onclick="verifyKeyAndStart()" class="w-full bg-gradient-to-r from-purple-600 to-purple-700 text-white text-xl font-bold py-4 px-8 rounded-xl hover:from-purple-700 hover:to-purple-800 transition transform hover:scale-105 shadow-lg mb-4">
+                    输入密钥 开始测试
                 </button>
 
-                <p class="text-sm text-gray-500 mt-4">
-                    🔒 无需登录，测试结果仅你可见
+                <button onclick="goToXianyu()" class="w-full bg-white border-2 border-purple-300 text-purple-700 font-bold py-3 px-8 rounded-xl hover:bg-purple-50 transition">
+                    🛒 去购买测试资格
+                </button>
+
+                <p class="text-xs text-gray-500 mt-4">
+                    🔒 密钥永久有效 · 已帮助 2,341 人找到职业方向
                 </p>
             </div>
         </div>
@@ -129,42 +175,43 @@
                     <div id="career-fields" class="flex flex-wrap gap-2"></div>
                 </div>
 
-                <!-- 付费解锁 -->
-                <div class="border-2 border-purple-200 rounded-xl p-6 text-center bg-gradient-to-br from-purple-50 to-pink-50">
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">🔓 解锁完整报告</h3>
-                    <p class="text-gray-600 mb-4">包含：详细分析 + 发展建议 + 薪资范围 + 学习路径</p>
+                <!-- 完整报告内容 -->
+                <div class="border-2 border-purple-200 rounded-xl p-6 mb-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">📊 完整职业分析</h3>
                     
-                    <!-- 密钥提示 -->
-                    <div class="bg-blue-50 border-2 border-blue-300 rounded-lg p-4 mb-4 text-left">
-                        <p class="font-bold text-blue-800 mb-2">🔑 密钥解锁方式</p>
-                        <p class="text-sm text-blue-700 mb-2">
-                            付款后，你将收到一个 <strong>密钥（兑换码）</strong>，格式如：<code>CAREER-XXXX-XXXX</code>
-                        </p>
-                        <p class="text-xs text-blue-600">
-                            💡 在报告页面输入密钥，即可立即解锁完整报告
-                        </p>
+                    <div class="space-y-4 text-gray-700">
+                        <div>
+                            <h4 class="font-bold text-purple-600 mb-2">职业发展建议</h4>
+                            <p class="text-sm leading-relaxed">根据你的特质，建议深耕当前领域，建立专业技能壁垒。参与 2-3 个完整项目，积累实战经验。向管理岗或专家岗发展，建立个人品牌和行业影响力。</p>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-bold text-purple-600 mb-2">薪资范围参考</h4>
+                            <div class="grid grid-cols-3 gap-2 text-center text-sm">
+                                <div class="bg-purple-50 rounded p-2">
+                                    <p class="text-gray-500">初级</p>
+                                    <p class="font-bold text-purple-600">8-15K</p>
+                                </div>
+                                <div class="bg-purple-50 rounded p-2">
+                                    <p class="text-gray-500">中级</p>
+                                    <p class="font-bold text-purple-600">15-30K</p>
+                                </div>
+                                <div class="bg-purple-50 rounded p-2">
+                                    <p class="text-gray-500">高级</p>
+                                    <p class="font-bold text-purple-600">30-60K+</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-bold text-purple-600 mb-2">学习路径</h4>
+                            <ol class="text-sm space-y-2 list-decimal list-inside">
+                                <li>基础阶段（1-3 个月）：学习核心概念和基础工具</li>
+                                <li>进阶阶段（3-6 个月）：参与实战项目，建立作品集</li>
+                                <li>精通阶段（6-12 个月）：深入研究细分领域</li>
+                            </ol>
+                        </div>
                     </div>
-                    
-                    <div class="bg-white rounded-lg p-4 mb-4 text-left text-sm text-gray-700">
-                        <p class="font-bold mb-2">📝 购买步骤：</p>
-                        <ol class="list-decimal list-inside space-y-1">
-                            <li>点击「去闲鱼购买」按钮</li>
-                            <li>支付 ¥1.1 购买报告</li>
-                            <li>卖家通过闲鱼发送密钥给你</li>
-                            <li>访问报告页面，输入密钥解锁</li>
-                        </ol>
-                    </div>
-                    
-                    <button onclick="unlockReport()" class="w-full bg-gradient-to-r from-purple-600 to-purple-700 text-white font-bold py-3 px-8 rounded-xl hover:from-purple-700 hover:to-purple-800 transition flex items-center justify-center gap-2 mb-3">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.31-8.86c-1.77-.45-2.34-.94-2.34-1.67 0-.84.79-1.43 2.1-1.43 1.38 0 1.9.66 1.94 1.64h1.71c-.05-1.34-.87-2.57-2.49-2.97V5H10.9v1.69c-1.51.32-2.72 1.3-2.72 2.81 0 1.79 1.49 2.69 3.66 3.21 1.95.46 2.34 1.15 2.34 1.87 0 .53-.39 1.39-2.1 1.39-1.6 0-2.23-.72-2.32-1.64H8.04c.1 1.7 1.36 2.66 2.86 2.97V19h2.34v-1.67c1.52-.29 2.72-1.16 2.73-2.77-.01-2.2-1.9-2.96-3.66-3.42z"/></svg>
-                        去闲鱼购买 ¥1.1
-                    </button>
-                    
-                    <a href="report.html" class="inline-block bg-white border-2 border-purple-300 text-purple-700 font-bold py-2 px-6 rounded-xl hover:bg-purple-50 transition text-sm">
-                        🔓 已有密钥？立即解锁报告
-                    </a>
-                    
-                    <p class="text-xs text-gray-500 mt-3">⚡ 自动发货 · 已有 2,341 人解锁</p>
                 </div>
 
                 <div class="mt-6 text-center">
@@ -173,7 +220,7 @@
                     </button>
                 </div>
 
-                <button onclick="restartQuiz()" class="w-full mt-6 bg-gray-100 text-gray-700 font-bold py-3 px-8 rounded-xl hover:bg-gray-200 transition">
+                <button onclick="location.reload()" class="w-full mt-6 bg-gray-100 text-gray-700 font-bold py-3 px-8 rounded-xl hover:bg-gray-200 transition">
                     🔄 重新测试
                 </button>
             </div>
@@ -309,9 +356,64 @@
 
         let currentQuestion = 0;
         let answers = [];
+        let currentAccessKey = null;
+
+        function goToXianyu() {
+            window.open('https://m.tb.cn/h.iezqisc?tk=kX4xUwBWLrQ', '_blank');
+        }
+
+        async function verifyKeyAndStart() {
+            const accessKey = document.getElementById('access-key-input').value.trim().toUpperCase();
+            if (!accessKey) {
+                alert('请输入密钥');
+                return;
+            }
+            
+            // 验证格式
+            const keyPattern = /^CAREER-[A-Z0-9]{4}-[A-Z0-9]{4}$/;
+            if (!keyPattern.test(accessKey)) {
+                alert('密钥格式不正确，应为：CAREER-XXXX-XXXX');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/unlock-with-key', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ access_key: accessKey })
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    currentAccessKey = accessKey;
+                    // 保存到 localStorage
+                    localStorage.setItem('validatedKey', accessKey);
+                    localStorage.setItem('resultId', data.result_id);
+                    localStorage.setItem('token', data.token);
+                    
+                    // 开始测试
+                    document.getElementById('verify-page').classList.add('hidden');
+                    document.getElementById('quiz-page').classList.remove('hidden');
+                    showQuestion();
+                } else {
+                    alert('密钥验证失败：' + (data.error || '未知错误') + '\n\n请检查密钥是否正确，或联系卖家确认');
+                }
+            } catch (e) {
+                console.error('验证失败:', e);
+                alert('网络错误，请刷新重试');
+            }
+        }
+
+        // 页面加载时检查是否有已验证的密钥
+        window.addEventListener('DOMContentLoaded', function() {
+            const savedKey = localStorage.getItem('validatedKey');
+            if (savedKey) {
+                document.getElementById('access-key-input').value = savedKey;
+            }
+        });
 
         function startQuiz() {
-            document.getElementById('start-page').classList.add('hidden');
+            document.getElementById('verify-page').classList.add('hidden');
             document.getElementById('quiz-page').classList.remove('hidden');
             showQuestion();
         }
@@ -338,22 +440,18 @@
         }
 
         function selectOption(idx) {
-            // 清除之前的选择
             document.querySelectorAll('.option-card').forEach(card => {
                 card.classList.remove('selected');
             });
-            // 选中当前
             document.querySelectorAll('.option-card')[idx].classList.add('selected');
-            // 保存答案
             answers[currentQuestion] = questions[currentQuestion].options[idx].type;
-            // 显示下一题按钮
             document.getElementById('next-btn').classList.remove('hidden');
-            // 自动跳转到下一题（延迟 300ms 让用户看到选择效果）
+            
+            // 自动跳转下一题
             setTimeout(() => {
                 if (currentQuestion < questions.length - 1) {
                     nextQuestion();
                 } else {
-                    // 最后一题，显示结果
                     showResult();
                 }
             }, 300);
@@ -379,50 +477,13 @@
             }
         }
 
-        async function showResult() {
-            // 计算结果
+        function showResult() {
             const counts = {};
             answers.forEach(type => {
                 counts[type] = (counts[type] || 0) + 1;
             });
             const resultType = Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0];
             const career = careers[resultType];
-
-            // 保存到后端
-            let resultId = null;
-            let reportUrl = null;
-            let fullReportUrl = null;
-            try {
-                const response = await fetch('/api/save-result', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        answers: answers,
-                        result_type: resultType,
-                        career_name: career.name,
-                        career_description: career.description,
-                        career_traits: career.traits,
-                        career_fields: career.fields
-                    })
-                });
-                const data = await response.json();
-                if (data.success) {
-                    resultId = data.result_id;
-                    reportUrl = data.report_url;
-                    fullReportUrl = window.location.origin + reportUrl;
-                    // 保存到 localStorage，方便后续访问
-                    localStorage.setItem('careerResultId', resultId);
-                    localStorage.setItem('careerReportUrl', reportUrl);
-                    localStorage.setItem('careerFullReportUrl', fullReportUrl);
-                    
-                    // 显示专属链接
-                    document.getElementById('report-link').textContent = fullReportUrl;
-                    document.getElementById('result-id-display').textContent = resultId;
-                }
-            } catch (e) {
-                console.error('保存结果失败:', e);
-                document.getElementById('report-link').textContent = '保存失败，请刷新重试';
-            }
 
             document.getElementById('quiz-page').classList.add('hidden');
             document.getElementById('result-page').classList.remove('hidden');
@@ -434,41 +495,8 @@
                 `<span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">${f}</span>`
             ).join('');
             
-            // 更新购买按钮，绑定结果 ID
-            const buyBtns = document.querySelectorAll('[onclick="unlockReport()"]');
-            buyBtns.forEach(btn => {
-                btn.setAttribute('data-result-id', resultId || '');
-            });
-        }
-        
-        function copyReportLink() {
-            const link = localStorage.getItem('careerFullReportUrl');
-            if (link) {
-                navigator.clipboard.writeText(link).then(() => {
-                    alert('✅ 链接已复制！\n\n付款后在浏览器打开此链接，输入订单号即可查看完整报告');
-                }).catch(() => {
-                    // 降级方案
-                    prompt('请手动复制链接：', link);
-                });
-            } else {
-                alert('❌ 链接未找到，请刷新页面重试');
-            }
-        }
-
-        function unlockReport() {
-            // 获取结果 ID
-            const resultId = localStorage.getItem('careerResultId');
-            const xianyuUrl = 'https://m.tb.cn/h.iezqisc?tk=kX4xUwBWLrQ';
-            
-            // 打开闲鱼
-            window.open(xianyuUrl, '_blank');
-            
-            // 显示提示
-            if (resultId) {
-                alert('🎉 感谢购买！\n\n付款后请访问：\n' + window.location.origin + '/report.html\n\n输入订单号即可查看你的专属报告');
-            } else {
-                alert('🎉 感谢购买！\n\n请先完成测试获取结果 ID\n\n付款后访问报告页面，输入订单号即可查看完整报告');
-            }
+            // 滚动到顶部
+            window.scrollTo(0, 0);
         }
 
         function shareResult() {
@@ -482,13 +510,6 @@
             } else {
                 alert('复制链接分享给好友吧：' + window.location.href);
             }
-        }
-
-        function restartQuiz() {
-            currentQuestion = 0;
-            answers = [];
-            document.getElementById('result-page').classList.add('hidden');
-            document.getElementById('start-page').classList.remove('hidden');
         }
     </script>
 </body>
