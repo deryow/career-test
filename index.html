@@ -849,13 +849,35 @@
             }
         }
 
-        function showResult() {
+        async function showResult() {
             const counts = {};
             answers.forEach(type => {
                 counts[type] = (counts[type] || 0) + 1;
             });
             const resultType = Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0];
             const career = careers[resultType];
+
+            // 保存测试结果（标记密钥为已使用）
+            const resultId = localStorage.getItem('resultId');
+            if (resultId) {
+                try {
+                    await fetch('/api/save-result', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            result_id: resultId,
+                            answers: answers,
+                            result_type: resultType,
+                            career_name: career.name,
+                            career_description: career.description,
+                            career_traits: career.traits,
+                            career_fields: career.fields
+                        })
+                    });
+                } catch (e) {
+                    console.error('保存结果失败:', e);
+                }
+            }
 
             document.getElementById('quiz-page').classList.add('hidden');
             document.getElementById('result-page').classList.remove('hidden');
