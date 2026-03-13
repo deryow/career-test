@@ -15,20 +15,52 @@
     <div class="container mx-auto px-4 max-w-3xl">
         <!-- 验证入口 -->
         <div id="verify-section" class="bg-white rounded-3xl shadow-2xl p-8 mb-8">
-            <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">🔓 解锁完整报告</h1>
-            <p class="text-gray-600 text-center mb-6">请输入闲鱼订单号验证后查看完整报告</p>
+            <div class="text-center mb-8">
+                <div class="text-6xl mb-4">🎉</div>
+                <h1 class="text-3xl font-bold text-gray-800 mb-2">欢迎解锁完整报告！</h1>
+                <p class="text-gray-600">请输入闲鱼订单号查看你的专属职业分析</p>
+            </div>
+            
+            <!-- 步骤指引 -->
+            <div class="bg-purple-50 rounded-xl p-6 mb-6">
+                <p class="font-bold text-purple-800 mb-3">📍 如何找到订单号？</p>
+                <div class="space-y-2 text-sm text-gray-700">
+                    <div class="flex items-start">
+                        <span class="bg-purple-500 text-white rounded-full w-5 h-5 flex items-center justify-center flex-shrink-0 mr-2 text-xs">1</span>
+                        <span>打开闲鱼 APP</span>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="bg-purple-500 text-white rounded-full w-5 h-5 flex items-center justify-center flex-shrink-0 mr-2 text-xs">2</span>
+                        <span>点击底部「我的」</span>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="bg-purple-500 text-white rounded-full w-5 h-5 flex items-center justify-center flex-shrink-0 mr-2 text-xs">3</span>
+                        <span>找到「我买到的」订单</span>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="bg-purple-500 text-white rounded-full w-5 h-5 flex items-center justify-center flex-shrink-0 mr-2 text-xs">4</span>
+                        <span>复制订单号（格式如：123456789012）</span>
+                    </div>
+                </div>
+            </div>
             
             <div class="space-y-4">
-                <input type="text" id="order-id" placeholder="请输入闲鱼订单号（如：123456789）" 
-                    class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none text-lg">
+                <input type="text" id="order-id" placeholder="请输入订单号（12 位数字）" 
+                    class="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none text-lg text-center tracking-wider">
                 <button onclick="verifyOrder()" 
-                    class="w-full bg-gradient-to-r from-purple-600 to-purple-700 text-white font-bold py-3 px-8 rounded-xl hover:from-purple-700 hover:to-purple-800 transition">
-                    验证并查看报告
+                    class="w-full bg-gradient-to-r from-purple-600 to-purple-700 text-white font-bold py-4 px-8 rounded-xl hover:from-purple-700 hover:to-purple-800 transition text-lg">
+                    立即查看报告
                 </button>
             </div>
             
-            <p class="text-sm text-gray-500 mt-4 text-center">
-                💡 提示：订单号在闲鱼 APP → 我的 → 我买到的 中查看
+            <div class="mt-6 p-4 bg-yellow-50 rounded-lg">
+                <p class="text-sm text-gray-600 text-center">
+                    💡 提示：订单号验证仅需一次，之后可随时访问本报告
+                </p>
+            </div>
+            
+            <p class="text-xs text-gray-400 mt-4 text-center">
+                遇到问题？联系微信：AI-Career-2024
             </p>
         </div>
 
@@ -164,16 +196,35 @@
     </div>
 
     <script>
+        // 检查是否已经验证过
+        window.addEventListener('DOMContentLoaded', function() {
+            const verified = localStorage.getItem('reportVerified');
+            if (verified === 'true') {
+                // 已经验证过，直接显示报告
+                document.getElementById('verify-section').classList.add('hidden');
+                document.getElementById('report-section').classList.remove('hidden');
+            }
+        });
+        
         function verifyOrder() {
             const orderId = document.getElementById('order-id').value.trim();
             if (!orderId) {
                 alert('请输入订单号');
                 return;
             }
+            if (orderId.length < 6) {
+                alert('订单号格式不正确，请检查后重试');
+                return;
+            }
             // 简单验证：订单号不为空即可（实际可接入闲鱼 API 验证）
             // 这里为了演示，直接显示报告
+            localStorage.setItem('reportVerified', 'true');
+            localStorage.setItem('orderId', orderId);
             document.getElementById('verify-section').classList.add('hidden');
             document.getElementById('report-section').classList.remove('hidden');
+            
+            // 滚动到顶部
+            window.scrollTo(0, 0);
         }
     </script>
 </body>

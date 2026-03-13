@@ -130,14 +130,30 @@
                 </div>
 
                 <!-- 付费解锁 -->
-                <div class="border-2 border-purple-200 rounded-xl p-6 text-center">
+                <div class="border-2 border-purple-200 rounded-xl p-6 text-center bg-gradient-to-br from-purple-50 to-pink-50">
                     <h3 class="text-xl font-bold text-gray-800 mb-2">🔓 解锁完整报告</h3>
                     <p class="text-gray-600 mb-4">包含：详细分析 + 发展建议 + 薪资范围 + 学习路径</p>
-                    <button onclick="unlockReport()" class="bg-gradient-to-r from-purple-600 to-purple-700 text-white font-bold py-3 px-8 rounded-xl hover:from-purple-700 hover:to-purple-800 transition flex items-center justify-center gap-2 mx-auto">
+                    
+                    <div class="bg-white rounded-lg p-4 mb-4 text-left text-sm text-gray-700">
+                        <p class="font-bold mb-2">📝 购买步骤：</p>
+                        <ol class="list-decimal list-inside space-y-1">
+                            <li>点击下方按钮前往闲鱼</li>
+                            <li>支付 ¥1.1 购买报告</li>
+                            <li>复制订单号（在闲鱼「我买到的」查看）</li>
+                            <li>返回本站，点击「输入订单号查看报告」</li>
+                        </ol>
+                    </div>
+                    
+                    <button onclick="unlockReport()" class="w-full bg-gradient-to-r from-purple-600 to-purple-700 text-white font-bold py-3 px-8 rounded-xl hover:from-purple-700 hover:to-purple-800 transition flex items-center justify-center gap-2 mb-3">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.31-8.86c-1.77-.45-2.34-.94-2.34-1.67 0-.84.79-1.43 2.1-1.43 1.38 0 1.9.66 1.94 1.64h1.71c-.05-1.34-.87-2.57-2.49-2.97V5H10.9v1.69c-1.51.32-2.72 1.3-2.72 2.81 0 1.79 1.49 2.69 3.66 3.21 1.95.46 2.34 1.15 2.34 1.87 0 .53-.39 1.39-2.1 1.39-1.6 0-2.23-.72-2.32-1.64H8.04c.1 1.7 1.36 2.66 2.86 2.97V19h2.34v-1.67c1.52-.29 2.72-1.16 2.73-2.77-.01-2.2-1.9-2.96-3.66-3.42z"/></svg>
-                        闲鱼购买 ¥1.1
+                        去闲鱼购买 ¥1.1
                     </button>
-                    <p class="text-xs text-gray-500 mt-2">⚡ 自动发货 · 已有 2,341 人解锁</p>
+                    
+                    <a href="report.html" class="inline-block bg-white border-2 border-purple-300 text-purple-700 font-bold py-2 px-6 rounded-xl hover:bg-purple-50 transition text-sm">
+                        📄 已有订单号？输入查看报告
+                    </a>
+                    
+                    <p class="text-xs text-gray-500 mt-3">⚡ 自动发货 · 已有 2,341 人解锁</p>
                 </div>
 
                 <div class="mt-6 text-center">
@@ -376,8 +392,6 @@
             // 跳转到闲鱼商品页面
             const xianyuUrl = 'https://m.tb.cn/h.iezqisc?tk=kX4xUwBWLrQ';
             window.open(xianyuUrl, '_blank');
-            // 提示用户
-            alert('🎉 感谢购买！\n\n付款后访问：report.html\n输入订单号即可查看完整报告');
         }
 
         function shareResult() {
