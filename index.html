@@ -518,28 +518,51 @@
         ];
         
         function loadFreeKeys() {
-            // 从 API 获取每日固定免费密钥
+            // 从 API 获取每日固定免费密钥（带使用状态）
             fetch('/api/get-free-keys')
                 .then(res => res.json())
                 .then(data => {
                     console.log('获取每日免费密钥:', data);
                     if (data.success && data.keys && data.keys.length > 0) {
-                        // 显示日期
+                        // 显示日期和统计
                         const dateElement = document.getElementById('free-key-date');
                         if (dateElement && data.date) {
-                            dateElement.textContent = data.date;
+                            dateElement.textContent = `${data.date} (可用：${data.available_count}/${data.total})`;
                         }
                         
-                        // 显示所有密钥（最多 10 个）
+                        // 显示所有密钥（最多 10 个），带使用状态
                         for (let i = 0; i < 10; i++) {
                             const keyElement = document.getElementById(`free-key-${i + 1}`);
-                            if (keyElement) {
-                                if (data.keys[i]) {
-                                    keyElement.textContent = data.keys[i];
+                            const buttonElement = document.querySelector(`button[onclick="copyKey('free-key-${i + 1}')"]`);
+                            
+                            if (keyElement && data.keys[i]) {
+                                const keyData = data.keys[i];
+                                keyElement.textContent = keyData.key;
+                                
+                                if (keyData.used) {
+                                    // 已使用：置灰 + 禁用按钮
+                                    keyElement.classList.add('text-gray-400', 'line-through');
+                                    keyElement.classList.remove('text-purple-600');
+                                    if (buttonElement) {
+                                        buttonElement.disabled = true;
+                                        buttonElement.classList.add('bg-gray-400', 'cursor-not-allowed');
+                                        buttonElement.classList.remove('bg-green-500', 'hover:bg-green-600');
+                                        buttonElement.textContent = '已使用';
+                                    }
                                 } else {
-                                    keyElement.textContent = '已用完';
-                                    keyElement.classList.add('text-gray-400');
+                                    // 未使用：正常显示
+                                    keyElement.classList.add('text-purple-600');
+                                    keyElement.classList.remove('text-gray-400', 'line-through');
+                                    if (buttonElement) {
+                                        buttonElement.disabled = false;
+                                        buttonElement.classList.add('bg-green-500', 'hover:bg-green-600');
+                                        buttonElement.classList.remove('bg-gray-400', 'cursor-not-allowed');
+                                        buttonElement.textContent = '复制';
+                                    }
                                 }
+                            } else if (keyElement) {
+                                keyElement.textContent = '暂无';
+                                keyElement.classList.add('text-gray-400');
                             }
                         }
                     } else {
@@ -567,8 +590,15 @@
             const keyElement = document.getElementById(elementId);
             const keyText = keyElement ? keyElement.textContent.trim() : '';
             
-            if (!keyText || keyText === '加载中...') {
-                alert('⏳ 密钥加载中，请稍后再试');
+            if (!keyText || keyText === '加载中...' || keyText === '暂无' || keyText === '已用完') {
+                alert('⏳ 密钥加载中或已用完，请稍后再试');
+                return;
+            }
+            
+            // 检查按钮是否被禁用（已使用状态）
+            const button = document.querySelector(`button[onclick="copyKey('${elementId}')"]`);
+            if (button && button.disabled) {
+                alert('❌ 该密钥已被使用，请选择其他可用密钥');
                 return;
             }
             
@@ -581,7 +611,7 @@
                         inputElement.value = keyText;
                         inputElement.focus();
                     }
-                    // 显示成功提示（使用更友好的方式）
+                    // 显示成功提示
                     showCopySuccess(keyText);
                 }).catch((err) => {
                     console.error('复制失败:', err);
