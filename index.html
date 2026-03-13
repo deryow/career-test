@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测测你的天选职业 - AI 趣味测试</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .option-card {
+            transition: all 0.3s ease;
+        }
+        .option-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .option-card.selected {
+            border-color: #667eea;
+            background: linear-gradient(135deg, rgba(102,126,234,0.1) 0%, rgba(118,75,162,0.1) 100%);
+        }
+        .progress-bar {
+            transition: width 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+    </style>
+</head>
+<body class="gradient-bg min-h-screen">
+    <!-- 开始页面 -->
+    <div id="start-page" class="container mx-auto px-4 py-16 max-w-2xl">
+        <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-12 fade-in">
+            <div class="text-center">
+                <div class="text-6xl mb-6">🎯</div>
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
+                    测测你的<span class="text-purple-600">天选职业</span>
+                </h1>
+                <p class="text-gray-600 text-lg mb-8">
+                    10 道趣味测试题，发现你命中注定的职业方向
+                </p>
+                
+                <div class="bg-purple-50 rounded-xl p-6 mb-8">
+                    <div class="flex justify-around text-center">
+                        <div>
+                            <div class="text-2xl font-bold text-purple-600">10</div>
+                            <div class="text-sm text-gray-600">道测试题</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-purple-600">3</div>
+                            <div class="text-sm text-gray-600">分钟完成</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-purple-600">16</div>
+                            <div class="text-sm text-gray-600">种职业结果</div>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="startQuiz()" class="w-full bg-gradient-to-r from-purple-600 to-purple-700 text-white text-xl font-bold py-4 px-8 rounded-xl hover:from-purple-700 hover:to-purple-800 transition transform hover:scale-105 shadow-lg">
+                    开始测试 ✨
+                </button>
+
+                <p class="text-sm text-gray-500 mt-4">
+                    🔒 无需登录，测试结果仅你可见
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 测试页面 -->
+    <div id="quiz-page" class="container mx-auto px-4 py-8 max-w-2xl hidden">
+        <!-- 进度条 -->
+        <div class="mb-6">
+            <div class="flex justify-between text-white text-sm mb-2">
+                <span>进度</span>
+                <span id="progress-text">1/10</span>
+            </div>
+            <div class="bg-white/30 rounded-full h-2">
+                <div id="progress-bar" class="progress-bar bg-white h-2 rounded-full" style="width: 10%"></div>
+            </div>
+        </div>
+
+        <!-- 题目卡片 -->
+        <div class="bg-white rounded-3xl shadow-2xl p-8 fade-in">
+            <h2 id="question-text" class="text-2xl font-bold text-gray-800 mb-6"></h2>
+            
+            <div id="options-container" class="space-y-4">
+                <!-- 选项会动态插入 -->
+            </div>
+
+            <div class="mt-8 flex justify-between">
+                <button onclick="prevQuestion()" id="prev-btn" class="px-6 py-3 text-gray-600 hover:text-gray-800 transition hidden">
+                    ← 上一题
+                </button>
+                <button onclick="nextQuestion()" id="next-btn" class="ml-auto bg-purple-600 text-white px-8 py-3 rounded-xl hover:bg-purple-700 transition hidden">
+                    下一题 →
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 结果页面 -->
+    <div id="result-page" class="container mx-auto px-4 py-8 max-w-2xl hidden">
+        <div class="bg-white rounded-3xl shadow-2xl overflow-hidden">
+            <!-- 结果头部 -->
+            <div class="gradient-bg p-8 text-center text-white">
+                <div class="text-6xl mb-4">🏆</div>
+                <h2 class="text-3xl font-bold mb-2">你的天选职业是</h2>
+                <div id="career-result" class="text-4xl font-bold mt-4"></div>
+            </div>
+
+            <!-- 结果详情 -->
+            <div class="p-8">
+                <div id="career-description" class="text-gray-700 text-lg mb-6"></div>
+
+                <div class="bg-purple-50 rounded-xl p-6 mb-6">
+                    <h3 class="font-bold text-purple-800 mb-3">✨ 你的核心特质</h3>
+                    <ul id="career-traits" class="space-y-2 text-gray-700"></ul>
+                </div>
+
+                <div class="bg-yellow-50 rounded-xl p-6 mb-6">
+                    <h3 class="font-bold text-yellow-800 mb-3">💡 适合领域</h3>
+                    <div id="career-fields" class="flex flex-wrap gap-2"></div>
+                </div>
+
+                <!-- 付费解锁 -->
+                <div class="border-2 border-purple-200 rounded-xl p-6 text-center">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">🔓 解锁完整报告</h3>
+                    <p class="text-gray-600 mb-4">包含：详细分析 + 发展建议 + 薪资范围 + 学习路径</p>
+                    <button onclick="unlockReport()" class="bg-gradient-to-r from-purple-600 to-purple-700 text-white font-bold py-3 px-8 rounded-xl hover:from-purple-700 hover:to-purple-800 transition flex items-center justify-center gap-2 mx-auto">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.31-8.86c-1.77-.45-2.34-.94-2.34-1.67 0-.84.79-1.43 2.1-1.43 1.38 0 1.9.66 1.94 1.64h1.71c-.05-1.34-.87-2.57-2.49-2.97V5H10.9v1.69c-1.51.32-2.72 1.3-2.72 2.81 0 1.79 1.49 2.69 3.66 3.21 1.95.46 2.34 1.15 2.34 1.87 0 .53-.39 1.39-2.1 1.39-1.6 0-2.23-.72-2.32-1.64H8.04c.1 1.7 1.36 2.66 2.86 2.97V19h2.34v-1.67c1.52-.29 2.72-1.16 2.73-2.77-.01-2.2-1.9-2.96-3.66-3.42z"/></svg>
+                        闲鱼购买 ¥9.9
+                    </button>
+                    <p class="text-xs text-gray-500 mt-2">⚡ 自动发货 · 已有 2,341 人解锁</p>
+                </div>
+
+                <div class="mt-6 text-center">
+                    <button onclick="shareResult()" class="text-purple-600 hover:text-purple-700 font-medium">
+                        📤 分享结果给好友
+                    </button>
+                </div>
+
+                <button onclick="restartQuiz()" class="w-full mt-6 bg-gray-100 text-gray-700 font-bold py-3 px-8 rounded-xl hover:bg-gray-200 transition">
+                    🔄 重新测试
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 测试题目
+        const questions = [
+            {
+                text: "周末你更喜欢怎么度过？",
+                options: [
+                    { text: "📚 宅家看书/学习新技能", type: "analytical" },
+                    { text: "🎨 创作（画画/写作/编程）", type: "creative" },
+                    { text: "👥 和朋友聚会聊天", type: "social" },
+                    { text: "💼 处理工作/做副业", type: "entrepreneurial" }
+                ]
+            },
+            {
+                text: "面对难题，你的第一反应是？",
+                options: [
+                    { text: "🔍 查资料，系统分析", type: "analytical" },
+                    { text: "💡 头脑风暴，找新思路", type: "creative" },
+                    { text: "🤝 找人讨论，集思广益", type: "social" },
+                    { text: "⚡ 直接行动，边做边改", type: "entrepreneurial" }
+                ]
+            },
+            {
+                text: "你更享受哪种工作状态？",
+                options: [
+                    { text: "🎯 独立完成深度任务", type: "analytical" },
+                    { text: "🌈 自由发挥创意", type: "creative" },
+                    { text: "👨‍👩‍👧‍👦 团队协作完成项目", type: "social" },
+                    { text: "🚀 从 0 到 1 创造价值", type: "entrepreneurial" }
+                ]
+            },
+            {
+                text: "朋友通常找你帮忙什么？",
+                options: [
+                    { text: "📊 分析问题/给建议", type: "analytical" },
+                    { text: "🎭 设计/创意相关", type: "creative" },
+                    { text: "💬 倾诉心事/情感支持", type: "social" },
+                    { text: "💰 赚钱/搞钱思路", type: "entrepreneurial" }
+                ]
+            },
+            {
+                text: "你最喜欢的沟通方式是？",
+                options: [
+                    { text: "📝 文字/邮件（逻辑清晰）", type: "analytical" },
+                    { text: "🎬 视频/图像（直观生动）", type: "creative" },
+                    { text: "📞 电话/面对面（有温度）", type: "social" },
+                    { text: "💬 简短直接（高效）", type: "entrepreneurial" }
+                ]
+            },
+            {
+                text: "你对金钱的态度是？",
+                options: [
+                    { text: "💵 够用就好，稳定重要", type: "analytical" },
+                    { text: "🎨 为热爱买单，不在乎", type: "creative" },
+                    { text: "🎁 愿意为体验和人花钱", type: "social" },
+                    { text: "💰 努力赚钱，财务自由", type: "entrepreneurial" }
+                ]
+            },
+            {
+                text: "工作中最让你有成就感的是？",
+                options: [
+                    { text: "✅ 解决复杂问题", type: "analytical" },
+                    { text: "✨ 创造出独特作品", type: "creative" },
+                    { text: "❤️ 帮助到他人", type: "social" },
+                    { text: "📈 看到业务增长", type: "entrepreneurial" }
+                ]
+            },
+            {
+                text: "你理想的工作环境是？",
+                options: [
+                    { text: "🏢 安静独立的办公室", type: "analytical" },
+                    { text: "🎨 充满灵感的工作室", type: "creative" },
+                    { text: "👥 热闹开放的协作空间", type: "social" },
+                    { text: "🌍 自由灵活的远程", type: "entrepreneurial" }
+                ]
+            },
+            {
+                text: "学习新东西时，你偏好？",
+                options: [
+                    { text: "📖 系统课程/书籍", type: "analytical" },
+                    { text: "🎬 实践项目/边做边学", type: "creative" },
+                    { text: "👨‍🏫 跟人学习/讨论", type: "social" },
+                    { text: "🚀 快速试错/迭代", type: "entrepreneurial" }
+                ]
+            },
+            {
+                text: "如果用一种动物形容自己，你会选？",
+                options: [
+                    { text: "🦉 猫头鹰（智慧冷静）", type: "analytical" },
+                    { text: "🦋 蝴蝶（美丽多变）", type: "creative" },
+                    { text: "🐬 海豚（友善合群）", type: "social" },
+                    { text: "🦅 鹰（目标明确）", type: "entrepreneurial" }
+                ]
+            }
+        ];
+
+        // 职业结果
+        const careers = {
+            analytical: {
+                name: "数据科学家/分析师",
+                emoji: "📊",
+                description: "你天生擅长逻辑分析和深度思考，能够从复杂的数据中发现规律和洞察。这个世界需要你来解读信息背后的真相。",
+                traits: ["逻辑思维能力超强", "喜欢深度钻研", "注重事实和证据", "独立工作能力强"],
+                fields: ["数据分析", "人工智能", "金融分析", "市场研究", "咨询顾问"]
+            },
+            creative: {
+                name: "创意设计师/内容创作者",
+                emoji: "🎨",
+                description: "你拥有丰富的想象力和创造力，总能想出别人想不到的点子。你的作品能够打动人心，为世界带来美好。",
+                traits: ["想象力丰富", "审美能力强", "喜欢尝试新事物", "表达欲强"],
+                fields: ["UI/UX 设计", "内容创作", "视频制作", "品牌策划", "艺术创作"]
+            },
+            social: {
+                name: "人力资源/心理咨询师",
+                emoji: "💝",
+                description: "你天生善于理解他人，能够敏锐地感知情绪和需求。你适合从事与人打交道的工作，帮助他人成长和发展。",
+                traits: ["共情能力强", "善于倾听", "人际关系好", "乐于助人"],
+                fields: ["人力资源", "心理咨询", "教育培训", "客户服务", "社会工作"]
+            },
+            entrepreneurial: {
+                name: "创业者/产品经理",
+                emoji: "🚀",
+                description: "你有强烈的目标感和执行力，善于发现机会并付诸行动。你适合主导项目，从 0 到 1 创造价值。",
+                traits: ["目标导向", "执行力强", "风险承受力高", "善于决策"],
+                fields: ["创业", "产品管理", "项目管理", "销售", "投资"]
+            }
+        };
+
+        let currentQuestion = 0;
+        let answers = [];
+
+        function startQuiz() {
+            document.getElementById('start-page').classList.add('hidden');
+            document.getElementById('quiz-page').classList.remove('hidden');
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const q = questions[currentQuestion];
+            document.getElementById('question-text').textContent = q.text;
+            document.getElementById('progress-text').textContent = `${currentQuestion + 1}/${questions.length}`;
+            document.getElementById('progress-bar').style.width = `${(currentQuestion + 1) * 10}%`;
+
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+
+            q.options.forEach((opt, idx) => {
+                const div = document.createElement('div');
+                div.className = 'option-card border-2 border-gray-200 rounded-xl p-4 cursor-pointer';
+                div.onclick = () => selectOption(idx);
+                div.innerHTML = `<div class="text-lg">${opt.text}</div>`;
+                container.appendChild(div);
+            });
+
+            document.getElementById('prev-btn').classList.toggle('hidden', currentQuestion === 0);
+            document.getElementById('next-btn').classList.add('hidden');
+        }
+
+        function selectOption(idx) {
+            // 清除之前的选择
+            document.querySelectorAll('.option-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            // 选中当前
+            document.querySelectorAll('.option-card')[idx].classList.add('selected');
+            // 保存答案
+            answers[currentQuestion] = questions[currentQuestion].options[idx].type;
+            // 显示下一题按钮
+            document.getElementById('next-btn').classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            if (!answers[currentQuestion]) {
+                alert('请先选择一个选项哦~');
+                return;
+            }
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                showQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                showQuestion();
+            }
+        }
+
+        function showResult() {
+            // 计算结果
+            const counts = {};
+            answers.forEach(type => {
+                counts[type] = (counts[type] || 0) + 1;
+            });
+            const resultType = Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0];
+            const career = careers[resultType];
+
+            document.getElementById('quiz-page').classList.add('hidden');
+            document.getElementById('result-page').classList.remove('hidden');
+
+            document.getElementById('career-result').textContent = `${career.emoji} ${career.name}`;
+            document.getElementById('career-description').textContent = career.description;
+            document.getElementById('career-traits').innerHTML = career.traits.map(t => `<li>✓ ${t}</li>`).join('');
+            document.getElementById('career-fields').innerHTML = career.fields.map(f => 
+                `<span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">${f}</span>`
+            ).join('');
+        }
+
+        function unlockReport() {
+            // 跳转到闲鱼商品页面
+            const xianyuUrl = 'https://m.goofish.com/item/[你的商品 ID].html'; // 替换为你的闲鱼商品链接
+            if (xianyuUrl.includes('[你的商品 ID]')) {
+                alert('🎉 感谢支持！\n\n请联系管理员配置闲鱼商品链接\n或添加微信：AI-Test-2024 获取完整报告');
+            } else {
+                window.open(xianyuUrl, '_blank');
+                alert('🎉 即将跳转到闲鱼购买页面\n付款后自动解锁完整报告\n如未自动发货请联系客服');
+            }
+        }
+
+        function shareResult() {
+            const career = document.getElementById('career-result').textContent;
+            if (navigator.share) {
+                navigator.share({
+                    title: '我的天选职业测试',
+                    text: `我测出来是${career}，你也来试试吧！`,
+                    url: window.location.href
+                });
+            } else {
+                alert('复制链接分享给好友吧：' + window.location.href);
+            }
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            answers = [];
+            document.getElementById('result-page').classList.add('hidden');
+            document.getElementById('start-page').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
