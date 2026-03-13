@@ -127,25 +127,71 @@
                                 <span class="text-xl mr-2">🎁</span>
                                 <p class="font-bold text-green-800 text-sm">免费体验密钥</p>
                             </div>
-                            <p class="text-xs text-green-600">每日限量 · 先到先得</p>
+                            <div class="text-right">
+                                <p class="text-xs text-green-600 font-medium">每日 10 个 · 先到先得</p>
+                                <p id="free-key-date" class="text-xs text-green-500">今日</p>
+                            </div>
                         </div>
                         
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+                        <!-- 10 个密钥，5 列×2 行 -->
+                        <div class="grid grid-cols-2 md:grid-cols-5 gap-2 mb-3">
                             <div class="flex items-center bg-white rounded-lg p-2 border border-green-200">
-                                <code id="free-key-1" class="text-xs font-mono text-purple-600 flex-1 truncate">加载中...</code>
-                                <button onclick="copyKey('free-key-1')" class="ml-2 text-xs bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 transition flex-shrink-0">
+                                <code id="free-key-1" class="text-xs font-mono text-purple-600 flex-1 truncate">...</code>
+                                <button onclick="copyKey('free-key-1')" class="ml-1 text-xs bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 transition flex-shrink-0">
                                     复制
                                 </button>
                             </div>
                             <div class="flex items-center bg-white rounded-lg p-2 border border-green-200">
-                                <code id="free-key-2" class="text-xs font-mono text-purple-600 flex-1 truncate">加载中...</code>
-                                <button onclick="copyKey('free-key-2')" class="ml-2 text-xs bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 transition flex-shrink-0">
+                                <code id="free-key-2" class="text-xs font-mono text-purple-600 flex-1 truncate">...</code>
+                                <button onclick="copyKey('free-key-2')" class="ml-1 text-xs bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 transition flex-shrink-0">
                                     复制
                                 </button>
                             </div>
                             <div class="flex items-center bg-white rounded-lg p-2 border border-green-200">
-                                <code id="free-key-3" class="text-xs font-mono text-purple-600 flex-1 truncate">加载中...</code>
-                                <button onclick="copyKey('free-key-3')" class="ml-2 text-xs bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 transition flex-shrink-0">
+                                <code id="free-key-3" class="text-xs font-mono text-purple-600 flex-1 truncate">...</code>
+                                <button onclick="copyKey('free-key-3')" class="ml-1 text-xs bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 transition flex-shrink-0">
+                                    复制
+                                </button>
+                            </div>
+                            <div class="flex items-center bg-white rounded-lg p-2 border border-green-200">
+                                <code id="free-key-4" class="text-xs font-mono text-purple-600 flex-1 truncate">...</code>
+                                <button onclick="copyKey('free-key-4')" class="ml-1 text-xs bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 transition flex-shrink-0">
+                                    复制
+                                </button>
+                            </div>
+                            <div class="flex items-center bg-white rounded-lg p-2 border border-green-200">
+                                <code id="free-key-5" class="text-xs font-mono text-purple-600 flex-1 truncate">...</code>
+                                <button onclick="copyKey('free-key-5')" class="ml-1 text-xs bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 transition flex-shrink-0">
+                                    复制
+                                </button>
+                            </div>
+                            <div class="flex items-center bg-white rounded-lg p-2 border border-green-200">
+                                <code id="free-key-6" class="text-xs font-mono text-purple-600 flex-1 truncate">...</code>
+                                <button onclick="copyKey('free-key-6')" class="ml-1 text-xs bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 transition flex-shrink-0">
+                                    复制
+                                </button>
+                            </div>
+                            <div class="flex items-center bg-white rounded-lg p-2 border border-green-200">
+                                <code id="free-key-7" class="text-xs font-mono text-purple-600 flex-1 truncate">...</code>
+                                <button onclick="copyKey('free-key-7')" class="ml-1 text-xs bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 transition flex-shrink-0">
+                                    复制
+                                </button>
+                            </div>
+                            <div class="flex items-center bg-white rounded-lg p-2 border border-green-200">
+                                <code id="free-key-8" class="text-xs font-mono text-purple-600 flex-1 truncate">...</code>
+                                <button onclick="copyKey('free-key-8')" class="ml-1 text-xs bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 transition flex-shrink-0">
+                                    复制
+                                </button>
+                            </div>
+                            <div class="flex items-center bg-white rounded-lg p-2 border border-green-200">
+                                <code id="free-key-9" class="text-xs font-mono text-purple-600 flex-1 truncate">...</code>
+                                <button onclick="copyKey('free-key-9')" class="ml-1 text-xs bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 transition flex-shrink-0">
+                                    复制
+                                </button>
+                            </div>
+                            <div class="flex items-center bg-white rounded-lg p-2 border border-green-200">
+                                <code id="free-key-10" class="text-xs font-mono text-purple-600 flex-1 truncate">...</code>
+                                <button onclick="copyKey('free-key-10')" class="ml-1 text-xs bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 transition flex-shrink-0">
                                     复制
                                 </button>
                             </div>
@@ -472,23 +518,31 @@
         ];
         
         function loadFreeKeys() {
-            // 从 API 获取可用的免费密钥
+            // 从 API 获取每日固定免费密钥
             fetch('/api/get-free-keys')
                 .then(res => res.json())
                 .then(data => {
-                    console.log('获取免费密钥:', data);
+                    console.log('获取每日免费密钥:', data);
                     if (data.success && data.keys && data.keys.length > 0) {
-                        // 显示 3 个密钥
-                        for (let i = 0; i < 3; i++) {
+                        // 显示日期
+                        const dateElement = document.getElementById('free-key-date');
+                        if (dateElement && data.date) {
+                            dateElement.textContent = data.date;
+                        }
+                        
+                        // 显示所有密钥（最多 10 个）
+                        for (let i = 0; i < 10; i++) {
                             const keyElement = document.getElementById(`free-key-${i + 1}`);
-                            if (keyElement && data.keys[i]) {
-                                keyElement.textContent = data.keys[i];
-                            } else if (keyElement) {
-                                keyElement.textContent = '暂无可用';
+                            if (keyElement) {
+                                if (data.keys[i]) {
+                                    keyElement.textContent = data.keys[i];
+                                } else {
+                                    keyElement.textContent = '已用完';
+                                    keyElement.classList.add('text-gray-400');
+                                }
                             }
                         }
                     } else {
-                        // API 返回空时显示默认密钥
                         showDefaultFreeKeys();
                     }
                 })
