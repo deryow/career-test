@@ -255,75 +255,216 @@
     </div>
 
     <!-- 结果页面 -->
-    <div id="result-page" class="container mx-auto px-4 py-8 max-w-2xl hidden">
+    <div id="result-page" class="container mx-auto px-4 py-8 max-w-3xl hidden">
         <div class="bg-white rounded-3xl shadow-2xl overflow-hidden">
             <!-- 结果头部 -->
             <div class="gradient-bg p-8 text-center text-white">
                 <div class="text-6xl mb-4">🏆</div>
-                <h2 class="text-3xl font-bold mb-2">你的天选职业是</h2>
-                <div id="career-result" class="text-4xl font-bold mt-4"></div>
+                <h2 class="text-2xl md:text-3xl font-bold mb-2">你的天选职业是</h2>
+                <div id="career-result" class="text-3xl md:text-5xl font-bold mt-4"></div>
+                <p class="text-white/80 mt-3 text-sm md:text-base">恭喜你完成测试！以下是你的专属职业分析报告</p>
+            </div>
+
+            <!-- 分享按钮（顶部） -->
+            <div class="p-4 bg-gradient-to-r from-purple-50 to-pink-50 border-b border-purple-100">
+                <div class="flex items-center justify-between">
+                    <p class="text-sm text-purple-700 font-medium">🎉 测试完成！分享给好友看看他们的天选职业</p>
+                    <div class="flex gap-2">
+                        <button onclick="shareResult('wechat')" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition text-sm font-medium">
+                            微信好友
+                        </button>
+                        <button onclick="shareResult('qq')" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition text-sm font-medium">
+                            QQ 好友
+                        </button>
+                        <button onclick="copyResultLink()" class="bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition text-sm font-medium">
+                            复制链接
+                        </button>
+                    </div>
+                </div>
             </div>
 
             <!-- 结果详情 -->
-            <div class="p-8">
-                <div id="career-description" class="text-gray-700 text-lg mb-6"></div>
-
-                <div class="bg-purple-50 rounded-xl p-6 mb-6">
-                    <h3 class="font-bold text-purple-800 mb-3">✨ 你的核心特质</h3>
-                    <ul id="career-traits" class="space-y-2 text-gray-700"></ul>
+            <div class="p-6 md:p-8">
+                <!-- 职业描述 -->
+                <div class="mb-8">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3 flex items-center">
+                        <span class="text-2xl mr-2">📖</span>
+                        职业解读
+                    </h3>
+                    <div class="bg-gradient-to-br from-purple-50 to-blue-50 rounded-xl p-6 border border-purple-100">
+                        <p id="career-description" class="text-gray-700 leading-relaxed text-base md:text-lg"></p>
+                    </div>
                 </div>
 
-                <div class="bg-yellow-50 rounded-xl p-6 mb-6">
-                    <h3 class="font-bold text-yellow-800 mb-3">💡 适合领域</h3>
+                <!-- 核心特质 -->
+                <div class="mb-8">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3 flex items-center">
+                        <span class="text-2xl mr-2">✨</span>
+                        你的核心特质
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div id="career-traits" class="space-y-2"></div>
+                    </div>
+                </div>
+
+                <!-- 适合领域 -->
+                <div class="mb-8">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3 flex items-center">
+                        <span class="text-2xl mr-2">💡</span>
+                        适合发展领域
+                    </h3>
                     <div id="career-fields" class="flex flex-wrap gap-2"></div>
                 </div>
 
                 <!-- 完整报告内容 -->
-                <div class="border-2 border-purple-200 rounded-xl p-6 mb-6">
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">📊 职业分析</h3>
+                <div class="border-2 border-purple-200 rounded-2xl p-6 mb-8 bg-white shadow-sm">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">📊 完整职业分析报告</h3>
                     
-                    <div class="space-y-4 text-gray-700">
-                        <div>
-                            <h4 class="font-bold text-purple-600 mb-2">职业发展建议</h4>
-                            <p class="text-sm leading-relaxed">根据你的特质，建议深耕当前领域，建立专业技能壁垒。参与 2-3 个完整项目，积累实战经验。向管理岗或专家岗发展，建立个人品牌和行业影响力。</p>
-                        </div>
-                        
-                        <div>
-                            <h4 class="font-bold text-purple-600 mb-2">薪资范围参考</h4>
-                            <div class="grid grid-cols-3 gap-2 text-center text-sm">
-                                <div class="bg-purple-50 rounded p-2">
-                                    <p class="text-gray-500">初级</p>
-                                    <p class="font-bold text-purple-600">8-15K</p>
+                    <!-- 职业发展建议 -->
+                    <div class="mb-6">
+                        <h4 class="font-bold text-purple-600 mb-3 flex items-center text-lg">
+                            <span class="bg-purple-100 rounded-full w-8 h-8 flex items-center justify-center mr-2 text-sm">💼</span>
+                            职业发展建议
+                        </h4>
+                        <div class="bg-purple-50 rounded-xl p-5">
+                            <div class="space-y-3 text-gray-700">
+                                <div class="flex items-start">
+                                    <span class="text-purple-500 mr-2 font-bold">短期（1-2 年）：</span>
+                                    <p class="text-sm leading-relaxed">深耕当前领域，建立专业技能壁垒。参与 2-3 个完整项目，积累实战经验。建议考取相关行业认证，提升竞争力。</p>
                                 </div>
-                                <div class="bg-purple-50 rounded p-2">
-                                    <p class="text-gray-500">中级</p>
-                                    <p class="font-bold text-purple-600">15-30K</p>
+                                <div class="flex items-start">
+                                    <span class="text-purple-500 mr-2 font-bold">中期（3-5 年）：</span>
+                                    <p class="text-sm leading-relaxed">向管理岗或专家岗发展，建立个人品牌和行业影响力。拓展人脉资源，关注行业前沿动态。</p>
                                 </div>
-                                <div class="bg-purple-50 rounded p-2">
-                                    <p class="text-gray-500">高级</p>
-                                    <p class="font-bold text-purple-600">30-60K+</p>
+                                <div class="flex items-start">
+                                    <span class="text-purple-500 mr-2 font-bold">长期（5 年+）：</span>
+                                    <p class="text-sm leading-relaxed">成为领域专家或团队领导者，考虑跨界发展，建立多元化能力结构。可探索创业或咨询机会。</p>
                                 </div>
                             </div>
                         </div>
-                        
-                        <div>
-                            <h4 class="font-bold text-purple-600 mb-2">学习路径</h4>
-                            <ol class="text-sm space-y-2 list-decimal list-inside">
-                                <li>基础阶段（1-3 个月）：学习核心概念和基础工具</li>
-                                <li>进阶阶段（3-6 个月）：参与实战项目，建立作品集</li>
-                                <li>精通阶段（6-12 个月）：深入研究细分领域</li>
-                            </ol>
+                    </div>
+                    
+                    <!-- 薪资范围参考 -->
+                    <div class="mb-6">
+                        <h4 class="font-bold text-green-600 mb-3 flex items-center text-lg">
+                            <span class="bg-green-100 rounded-full w-8 h-8 flex items-center justify-center mr-2 text-sm">💰</span>
+                            薪资范围参考
+                        </h4>
+                        <div class="grid grid-cols-3 gap-3">
+                            <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-4 text-center border border-green-200">
+                                <p class="text-gray-500 text-xs mb-1">初级</p>
+                                <p class="text-green-600 font-bold text-lg">8-15K</p>
+                                <p class="text-gray-400 text-xs mt-1">1-3 年经验</p>
+                            </div>
+                            <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-4 text-center border border-blue-200">
+                                <p class="text-gray-500 text-xs mb-1">中级</p>
+                                <p class="text-blue-600 font-bold text-lg">15-30K</p>
+                                <p class="text-gray-400 text-xs mt-1">3-5 年经验</p>
+                            </div>
+                            <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-4 text-center border border-purple-200">
+                                <p class="text-gray-500 text-xs mb-1">高级</p>
+                                <p class="text-purple-600 font-bold text-lg">30-60K+</p>
+                                <p class="text-gray-400 text-xs mt-1">5 年 + 经验</p>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-400 mt-2 text-center">* 数据来源于一线城市平均水平，仅供参考</p>
+                    </div>
+                    
+                    <!-- 学习路径规划 -->
+                    <div class="mb-6">
+                        <h4 class="font-bold text-blue-600 mb-3 flex items-center text-lg">
+                            <span class="bg-blue-100 rounded-full w-8 h-8 flex items-center justify-center mr-2 text-sm">📚</span>
+                            学习路径规划
+                        </h4>
+                        <div class="space-y-3">
+                            <div class="flex items-start bg-blue-50 rounded-xl p-4 border border-blue-100">
+                                <span class="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 mr-3 font-bold">1</span>
+                                <div class="flex-1">
+                                    <p class="font-bold text-blue-800 mb-1">基础阶段（1-3 个月）</p>
+                                    <p class="text-sm text-gray-700">学习核心概念和基础工具，完成入门课程。建议每天投入 1-2 小时，建立系统性认知。</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start bg-blue-50 rounded-xl p-4 border border-blue-100">
+                                <span class="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 mr-3 font-bold">2</span>
+                                <div class="flex-1">
+                                    <p class="font-bold text-blue-800 mb-1">进阶阶段（3-6 个月）</p>
+                                    <p class="text-sm text-gray-700">参与实战项目，建立作品集。加入相关社群，与同行交流学习，解决实际问题。</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start bg-blue-50 rounded-xl p-4 border border-blue-100">
+                                <span class="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 mr-3 font-bold">3</span>
+                                <div class="flex-1">
+                                    <p class="font-bold text-blue-800 mb-1">精通阶段（6-12 个月）</p>
+                                    <p class="text-sm text-gray-700">深入研究细分领域，建立专业优势。输出内容（文章/视频），建立个人影响力。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 推荐行业 -->
+                    <div class="mb-6">
+                        <h4 class="font-bold text-pink-600 mb-3 flex items-center text-lg">
+                            <span class="bg-pink-100 rounded-full w-8 h-8 flex items-center justify-center mr-2 text-sm">🏢</span>
+                            推荐行业/公司
+                        </h4>
+                        <div class="bg-pink-50 rounded-xl p-5 border border-pink-100">
+                            <div class="flex flex-wrap gap-2 mb-3">
+                                <span class="bg-pink-100 text-pink-800 px-4 py-2 rounded-full text-sm font-medium">互联网/科技</span>
+                                <span class="bg-pink-100 text-pink-800 px-4 py-2 rounded-full text-sm font-medium">金融/咨询</span>
+                                <span class="bg-pink-100 text-pink-800 px-4 py-2 rounded-full text-sm font-medium">教育培训</span>
+                                <span class="bg-pink-100 text-pink-800 px-4 py-2 rounded-full text-sm font-medium">文化传媒</span>
+                                <span class="bg-pink-100 text-pink-800 px-4 py-2 rounded-full text-sm font-medium">医疗健康</span>
+                            </div>
+                            <p class="text-sm text-gray-600">这些行业发展迅速，对相关专业人才需求量大，薪资待遇较好，适合长期发展。</p>
+                        </div>
+                    </div>
+                    
+                    <!-- 行动建议 -->
+                    <div>
+                        <h4 class="font-bold text-orange-600 mb-3 flex items-center text-lg">
+                            <span class="bg-orange-100 rounded-full w-8 h-8 flex items-center justify-center mr-2 text-sm">🎯</span>
+                            立即行动建议
+                        </h4>
+                        <div class="bg-orange-50 rounded-xl p-5 border border-orange-100">
+                            <ul class="space-y-2 text-sm text-gray-700">
+                                <li class="flex items-start">
+                                    <span class="text-orange-500 mr-2 font-bold">✓</span>
+                                    <span>保存这份报告，定期回顾自己的职业发展</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-orange-500 mr-2 font-bold">✓</span>
+                                    <span>根据建议制定 3 个月学习计划，并付诸行动</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-orange-500 mr-2 font-bold">✓</span>
+                                    <span>加入相关社群，认识志同道合的朋友</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-orange-500 mr-2 font-bold">✓</span>
+                                    <span>分享给好友，邀请他们一起测试</span>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
 
-                <div class="mt-6 text-center">
-                    <button onclick="shareResult()" class="text-purple-600 hover:text-purple-700 font-medium">
-                        📤 分享结果给好友
-                    </button>
+                <!-- 分享按钮（底部） -->
+                <div class="text-center mb-6">
+                    <p class="text-gray-600 mb-3 font-medium">觉得报告有帮助？分享给更多人！</p>
+                    <div class="flex justify-center gap-3 flex-wrap">
+                        <button onclick="shareResult('wechat')" class="bg-green-500 text-white px-6 py-3 rounded-xl hover:bg-green-600 transition font-medium">
+                            分享到微信
+                        </button>
+                        <button onclick="shareResult('qq')" class="bg-blue-500 text-white px-6 py-3 rounded-xl hover:bg-blue-600 transition font-medium">
+                            分享到 QQ
+                        </button>
+                        <button onclick="copyResultLink()" class="bg-purple-500 text-white px-6 py-3 rounded-xl hover:bg-purple-600 transition font-medium">
+                            复制链接
+                        </button>
+                    </div>
                 </div>
 
-                <button onclick="location.reload()" class="w-full mt-6 bg-gray-100 text-gray-700 font-bold py-3 px-8 rounded-xl hover:bg-gray-200 transition">
+                <button onclick="location.reload()" class="w-full bg-gray-100 text-gray-700 font-bold py-4 px-8 rounded-xl hover:bg-gray-200 transition text-lg">
                     🔄 重新测试
                 </button>
             </div>
@@ -748,26 +889,88 @@
 
             document.getElementById('career-result').textContent = `${career.emoji} ${career.name}`;
             document.getElementById('career-description').textContent = career.description;
-            document.getElementById('career-traits').innerHTML = career.traits.map(t => `<li>✓ ${t}</li>`).join('');
-            document.getElementById('career-fields').innerHTML = career.fields.map(f => 
-                `<span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">${f}</span>`
+            
+            // 核心特质（带图标）
+            const traitsIcons = ['🎯', '💡', '⭐', '🌟'];
+            document.getElementById('career-traits').innerHTML = career.traits.map((t, i) => 
+                `<div class="bg-purple-50 rounded-lg p-3 border border-purple-100">
+                    <span class="text-lg mr-2">${traitsIcons[i] || '✓'}</span>
+                    <span class="text-gray-700">${t}</span>
+                </div>`
+            ).join('');
+            
+            // 适合领域（带图标）
+            const fieldsIcons = ['💻', '🎨', '💼', '📊', '📚', '🏥'];
+            document.getElementById('career-fields').innerHTML = career.fields.map((f, i) => 
+                `<span class="bg-purple-100 text-purple-800 px-4 py-2 rounded-full text-sm font-medium flex items-center">
+                    <span class="mr-1">${fieldsIcons[i] || '✓'}</span>${f}
+                </span>`
             ).join('');
             
             // 滚动到顶部
             window.scrollTo(0, 0);
+            
+            // 显示成功提示
+            const toast = document.createElement('div');
+            toast.className = 'fixed top-4 left-1/2 transform -translate-x-1/2 bg-purple-500 text-white px-6 py-3 rounded-xl shadow-lg z-50';
+            toast.innerHTML = '🎉 测试完成！<br><span class="text-xs">下滑查看详细报告</span>';
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
         }
 
-        function shareResult() {
+        function shareResult(platform = '') {
             const career = document.getElementById('career-result').textContent;
-            if (navigator.share) {
-                navigator.share({
-                    title: '我的天选职业测试',
-                    text: `我测出来是${career}，你也来试试吧！`,
-                    url: window.location.href
+            const shareText = `我测出来是${career}，你也来试试吧！`;
+            const shareUrl = window.location.href;
+            
+            // 构建分享链接（带推荐文案）
+            const encodedText = encodeURIComponent(shareText);
+            const encodedUrl = encodeURIComponent(shareUrl);
+            
+            if (platform === 'wechat') {
+                // 微信分享（引导用户手动复制）
+                const wechatContent = `${shareText}\n\n${shareUrl}`;
+                navigator.clipboard.writeText(wechatContent).then(() => {
+                    alert('✅ 已复制！\n\n请打开微信，粘贴发送给好友');
+                }).catch(() => {
+                    prompt('请复制以下内容发送给微信好友：', wechatContent);
                 });
+            } else if (platform === 'qq') {
+                // QQ 分享
+                const qqUrl = `https://connect.qq.com/widget/shareqq/index.html?url=${encodedUrl}&title=${encodedText}&desc=${encodedText}`;
+                window.open(qqUrl, '_blank');
+            } else if (platform === 'weibo') {
+                // 微博分享
+                const weiboUrl = `https://service.weibo.com/share/share.php?url=${encodedUrl}&title=${encodedText}`;
+                window.open(weiboUrl, '_blank');
             } else {
-                alert('复制链接分享给好友吧：' + window.location.href);
+                // 系统分享
+                if (navigator.share) {
+                    navigator.share({
+                        title: '我的天选职业测试',
+                        text: shareText,
+                        url: shareUrl
+                    }).catch(() => {});
+                } else {
+                    copyResultLink();
+                }
             }
+        }
+        
+        function copyResultLink() {
+            const career = document.getElementById('career-result').textContent;
+            const linkText = `我测出来是${career}，你也来试试吧！\n\n测试链接：${window.location.href}`;
+            
+            navigator.clipboard.writeText(linkText).then(() => {
+                // 显示成功提示
+                const toast = document.createElement('div');
+                toast.className = 'fixed top-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-xl shadow-lg z-50';
+                toast.innerHTML = '✅ 链接已复制！<br><span class="text-xs">粘贴发送给好友即可</span>';
+                document.body.appendChild(toast);
+                setTimeout(() => toast.remove(), 3000);
+            }).catch(() => {
+                prompt('请复制以下链接分享给好友：', window.location.href);
+            });
         }
     </script>
 </body>
