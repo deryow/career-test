@@ -698,12 +698,17 @@
         }
         
         function showDefaultFreeKeys() {
-            // 显示预设的免费密钥
-            const defaultKeys = FREE_KEYS;
-            for (let i = 0; i < 3; i++) {
+            // API 失败时的降级处理：显示加载失败提示
+            for (let i = 0; i < 10; i++) {
                 const keyElement = document.getElementById(`free-key-${i + 1}`);
                 if (keyElement) {
-                    keyElement.textContent = defaultKeys[i];
+                    keyElement.textContent = '加载失败';
+                    keyElement.classList.add('text-red-400');
+                }
+                const buttonElement = document.querySelector(`button[onclick="copyKey('free-key-${i + 1}')"]`);
+                if (buttonElement) {
+                    buttonElement.disabled = true;
+                    buttonElement.classList.add('bg-gray-400');
                 }
             }
         }
