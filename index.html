@@ -134,24 +134,15 @@
                     <h3 class="text-xl font-bold text-gray-800 mb-2">🔓 解锁完整报告</h3>
                     <p class="text-gray-600 mb-4">包含：详细分析 + 发展建议 + 薪资范围 + 学习路径</p>
                     
-                    <!-- 专属报告链接（付款后使用） -->
-                    <div class="bg-yellow-50 border-2 border-yellow-300 rounded-lg p-4 mb-4 text-left">
-                        <p class="font-bold text-yellow-800 mb-2">🎯 你的专属报告链接：</p>
-                        <div class="bg-white rounded border border-yellow-200 p-2 mb-2">
-                            <code id="report-link" class="text-xs text-gray-600 break-all">加载中...</code>
-                        </div>
-                        <button onclick="copyReportLink()" class="text-xs bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 transition">
-                            📋 复制链接（付款后访问）
-                        </button>
-                        <p class="text-xs text-yellow-700 mt-2">
-                            💡 建议截图保存，付款后直接访问此链接查看完整报告
+                    <!-- 密钥提示 -->
+                    <div class="bg-blue-50 border-2 border-blue-300 rounded-lg p-4 mb-4 text-left">
+                        <p class="font-bold text-blue-800 mb-2">🔑 密钥解锁方式</p>
+                        <p class="text-sm text-blue-700 mb-2">
+                            付款后，你将收到一个 <strong>密钥（兑换码）</strong>，格式如：<code>CAREER-XXXX-XXXX</code>
                         </p>
-                    </div>
-                    
-                    <!-- 结果 ID（备用验证） -->
-                    <div class="bg-gray-50 rounded-lg p-3 mb-4">
-                        <p class="text-xs text-gray-600 mb-1">结果 ID（备用验证）：</p>
-                        <code id="result-id-display" class="text-lg font-mono text-purple-600 font-bold">----</code>
+                        <p class="text-xs text-blue-600">
+                            💡 在报告页面输入密钥，即可立即解锁完整报告
+                        </p>
                     </div>
                     
                     <div class="bg-white rounded-lg p-4 mb-4 text-left text-sm text-gray-700">
@@ -159,8 +150,8 @@
                         <ol class="list-decimal list-inside space-y-1">
                             <li>点击「去闲鱼购买」按钮</li>
                             <li>支付 ¥1.1 购买报告</li>
-                            <li><strong class="text-purple-600">复制订单号</strong>（闲鱼→我的→我买到的）</li>
-                            <li>访问上方专属链接，输入订单号验证</li>
+                            <li>卖家通过闲鱼发送密钥给你</li>
+                            <li>访问报告页面，输入密钥解锁</li>
                         </ol>
                     </div>
                     
@@ -170,7 +161,7 @@
                     </button>
                     
                     <a href="report.html" class="inline-block bg-white border-2 border-purple-300 text-purple-700 font-bold py-2 px-6 rounded-xl hover:bg-purple-50 transition text-sm">
-                        📄 已有订单号？输入查看报告
+                        🔓 已有密钥？立即解锁报告
                     </a>
                     
                     <p class="text-xs text-gray-500 mt-3">⚡ 自动发货 · 已有 2,341 人解锁</p>

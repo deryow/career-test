@@ -13,68 +13,57 @@
 </head>
 <body class="gradient-bg min-h-screen py-8">
     <div class="container mx-auto px-4 max-w-3xl">
-        <!-- 验证入口 -->
+        <!-- 密钥验证入口 -->
         <div id="verify-section" class="bg-white rounded-3xl shadow-2xl p-8 mb-8">
             <div class="text-center mb-8">
-                <div class="text-6xl mb-4">🎉</div>
-                <h1 class="text-3xl font-bold text-gray-800 mb-2">欢迎解锁完整报告！</h1>
-                <p class="text-gray-600">请输入闲鱼订单号查看你的专属职业分析</p>
+                <div class="text-6xl mb-4">🔑</div>
+                <h1 class="text-3xl font-bold text-gray-800 mb-2">输入密钥解锁报告</h1>
+                <p class="text-gray-600">购买后收到的密钥格式：CAREER-XXXX-XXXX</p>
             </div>
             
-            <!-- 场景 1：通过专属链接访问，自动填充结果 ID -->
-            <div id="auto-fill-notice" class="hidden bg-green-50 border-2 border-green-300 rounded-xl p-4 mb-6">
-                <p class="font-bold text-green-800 mb-2">✅ 已识别你的测试结果</p>
-                <p class="text-sm text-green-700">
-                    结果 ID：<code id="auto-result-id" class="font-mono font-bold"></code>
-                </p>
-                <p class="text-xs text-green-600 mt-2">只需输入订单号即可验证</p>
+            <!-- 密钥输入框 -->
+            <div class="space-y-4 mb-6">
+                <input type="text" id="access-key" placeholder="CAREER-____-____" 
+                    class="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none text-lg text-center font-mono tracking-wider uppercase"
+                    style="letter-spacing: 2px;">
+                <button onclick="unlockWithKey()" 
+                    class="w-full bg-gradient-to-r from-purple-600 to-purple-700 text-white font-bold py-4 px-8 rounded-xl hover:from-purple-700 hover:to-purple-800 transition text-lg">
+                    立即解锁报告
+                </button>
             </div>
             
-            <!-- 场景 2：手动输入结果 ID -->
-            <div id="manual-result-section" class="hidden bg-gray-50 rounded-xl p-4 mb-6">
-                <p class="font-bold text-gray-800 mb-2">📋 结果 ID（可选）</p>
-                <input type="text" id="manual-result-id" placeholder="如：A1B2C3D4（测试完成后显示）" 
-                    class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none text-sm font-mono">
-                <p class="text-xs text-gray-500 mt-2">
-                    💡 如果有结果 ID 请填入，没有可留空（会从浏览器缓存读取）
-                </p>
+            <!-- 密钥示例 -->
+            <div class="bg-purple-50 rounded-xl p-4 mb-6">
+                <p class="font-bold text-purple-800 mb-2 text-sm">📋 密钥示例：</p>
+                <code class="text-lg font-mono text-purple-600">CAREER-A1B2-C3D4</code>
             </div>
             
-            <!-- 步骤指引 -->
-            <div class="bg-purple-50 rounded-xl p-6 mb-6">
-                <p class="font-bold text-purple-800 mb-3">📍 如何找到订单号？</p>
+            <!-- 获取密钥指引 -->
+            <div class="bg-blue-50 rounded-xl p-6 mb-6">
+                <p class="font-bold text-blue-800 mb-3">📍 如何获取密钥？</p>
                 <div class="space-y-2 text-sm text-gray-700">
                     <div class="flex items-start">
-                        <span class="bg-purple-500 text-white rounded-full w-5 h-5 flex items-center justify-center flex-shrink-0 mr-2 text-xs">1</span>
-                        <span>打开闲鱼 APP</span>
+                        <span class="bg-blue-500 text-white rounded-full w-5 h-5 flex items-center justify-center flex-shrink-0 mr-2 text-xs">1</span>
+                        <span>完成测试并点击「去闲鱼购买」</span>
                     </div>
                     <div class="flex items-start">
-                        <span class="bg-purple-500 text-white rounded-full w-5 h-5 flex items-center justify-center flex-shrink-0 mr-2 text-xs">2</span>
-                        <span>点击底部「我的」</span>
+                        <span class="bg-blue-500 text-white rounded-full w-5 h-5 flex items-center justify-center flex-shrink-0 mr-2 text-xs">2</span>
+                        <span>支付 ¥1.1</span>
                     </div>
                     <div class="flex items-start">
-                        <span class="bg-purple-500 text-white rounded-full w-5 h-5 flex items-center justify-center flex-shrink-0 mr-2 text-xs">3</span>
-                        <span>找到「我买到的」订单</span>
+                        <span class="bg-blue-500 text-white rounded-full w-5 h-5 flex items-center justify-center flex-shrink-0 mr-2 text-xs">3</span>
+                        <span>卖家通过闲鱼发送密钥给你</span>
                     </div>
                     <div class="flex items-start">
-                        <span class="bg-purple-500 text-white rounded-full w-5 h-5 flex items-center justify-center flex-shrink-0 mr-2 text-xs">4</span>
-                        <span>复制订单号（格式如：123456789012）</span>
+                        <span class="bg-blue-500 text-white rounded-full w-5 h-5 flex items-center justify-center flex-shrink-0 mr-2 text-xs">4</span>
+                        <span>复制密钥，返回本页输入</span>
                     </div>
                 </div>
             </div>
             
-            <div class="space-y-4">
-                <input type="text" id="order-id" placeholder="请输入订单号（12 位数字）" 
-                    class="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none text-lg text-center tracking-wider">
-                <button onclick="verifyOrder()" 
-                    class="w-full bg-gradient-to-r from-purple-600 to-purple-700 text-white font-bold py-4 px-8 rounded-xl hover:from-purple-700 hover:to-purple-800 transition text-lg">
-                    立即查看报告
-                </button>
-            </div>
-            
             <div class="mt-6 p-4 bg-yellow-50 rounded-lg">
                 <p class="text-sm text-gray-600 text-center">
-                    💡 提示：订单号验证仅需一次，之后可随时访问本报告
+                    💡 提示：密钥永久有效，可多次使用
                 </p>
             </div>
             
@@ -224,42 +213,18 @@
             currentToken = params.get('token');
             currentResultId = params.get('result_id');
             
-            // 场景 1：通过专属链接访问（带 token）
+            // 如果通过专属链接访问（带 token），直接显示报告
             if (currentToken && currentResultId) {
-                // 显示自动填充提示
-                document.getElementById('auto-fill-notice').classList.remove('hidden');
-                document.getElementById('auto-result-id').textContent = currentResultId;
-                document.getElementById('manual-result-section').classList.add('hidden');
-                
-                // 检查是否已验证过
-                const verifiedOrderId = localStorage.getItem('careerVerifiedOrderId');
-                if (verifiedOrderId) {
-                    // 已经验证过，直接显示报告
-                    document.getElementById('order-id').value = verifiedOrderId;
-                    setTimeout(() => verifyOrder(), 500);
-                    return;
-                }
+                loadPersonalizedReport();
                 return;
             }
             
-            // 场景 2：手动访问，检查浏览器缓存
-            const savedResultId = localStorage.getItem('careerResultId');
-            if (savedResultId) {
-                currentResultId = savedResultId;
-                document.getElementById('auto-fill-notice').classList.remove('hidden');
-                document.getElementById('auto-result-id').textContent = savedResultId;
-                document.getElementById('manual-result-section').classList.add('hidden');
-            } else {
-                // 没有缓存，显示手动输入框
-                document.getElementById('manual-result-section').classList.remove('hidden');
-            }
-            
-            // 检查是否已经验证过
-            const verified = localStorage.getItem('reportVerified');
-            const verifiedOrderId = localStorage.getItem('careerVerifiedOrderId');
-            if (verified === 'true' && savedResultId && verifiedOrderId) {
-                document.getElementById('order-id').value = verifiedOrderId;
-                setTimeout(() => verifyOrder(), 500);
+            // 检查是否已用密钥解锁过
+            const unlockedKey = localStorage.getItem('unlockedKey');
+            if (unlockedKey) {
+                // 自动使用密钥解锁
+                document.getElementById('access-key').value = unlockedKey;
+                setTimeout(() => unlockWithKey(), 500);
             }
         });
         
@@ -274,7 +239,6 @@
                 const data = await response.json();
                 
                 if (data.success) {
-                    // 显示个性化报告
                     displayPersonalizedReport(data.report);
                 } else {
                     alert('报告加载失败：' + (data.error || '未知错误'));
@@ -343,54 +307,44 @@
             window.scrollTo(0, 0);
         }
         
-        async function verifyOrder() {
-            const orderId = document.getElementById('order-id').value.trim();
-            if (!orderId) {
-                alert('请输入订单号');
-                return;
-            }
-            if (orderId.length < 6) {
-                alert('订单号格式不正确，请检查后重试');
+        async function unlockWithKey() {
+            let accessKey = document.getElementById('access-key').value.trim().toUpperCase();
+            if (!accessKey) {
+                alert('请输入密钥');
                 return;
             }
             
-            // 获取结果 ID：优先使用 URL 参数，其次手动输入，最后缓存
-            let resultId = currentResultId;
-            if (!resultId) {
-                const manualInput = document.getElementById('manual-result-id').value.trim();
-                if (manualInput) {
-                    resultId = manualInput;
-                } else {
-                    resultId = localStorage.getItem('careerResultId');
-                }
+            // 格式化密钥（自动添加 CAREER-前缀如果用户没输入）
+            if (!accessKey.startsWith('CAREER-')) {
+                accessKey = 'CAREER-' + accessKey;
             }
             
-            if (!resultId) {
-                alert('未找到测试结果，请重新完成测试');
+            // 验证格式
+            const keyPattern = /^CAREER-[A-Z0-9]{4}-[A-Z0-9]{4}$/;
+            if (!keyPattern.test(accessKey)) {
+                alert('密钥格式不正确，应为：CAREER-XXXX-XXXX');
                 return;
             }
             
             try {
-                const response = await fetch('/api/verify-order', {
+                const response = await fetch('/api/unlock-with-key', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        order_id: orderId,
-                        result_id: resultId
-                    })
+                    body: JSON.stringify({ access_key: accessKey })
                 });
                 const data = await response.json();
                 
                 if (data.success) {
-                    // 验证成功，保存状态
+                    // 保存密钥到本地，下次自动解锁
+                    localStorage.setItem('unlockedKey', accessKey);
                     localStorage.setItem('reportVerified', 'true');
-                    localStorage.setItem('careerVerifiedOrderId', orderId);
                     
-                    // 加载个性化报告
+                    // 加载报告
                     currentToken = data.token;
+                    currentResultId = data.result_id;
                     await loadPersonalizedReport();
                 } else {
-                    alert('验证失败：' + (data.error || '未知错误') + '\n\n' + (data.help || ''));
+                    alert('密钥验证失败：' + (data.error || '未知错误') + '\n\n请检查密钥是否正确，或联系卖家确认');
                 }
             } catch (e) {
                 console.error('验证失败:', e);
