@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>职业测试完整报告</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+    </style>
+</head>
+<body class="gradient-bg min-h-screen py-8">
+    <div class="container mx-auto px-4 max-w-3xl">
+        <!-- 验证入口 -->
+        <div id="verify-section" class="bg-white rounded-3xl shadow-2xl p-8 mb-8">
+            <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">🔓 解锁完整报告</h1>
+            <p class="text-gray-600 text-center mb-6">请输入闲鱼订单号验证后查看完整报告</p>
+            
+            <div class="space-y-4">
+                <input type="text" id="order-id" placeholder="请输入闲鱼订单号（如：123456789）" 
+                    class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none text-lg">
+                <button onclick="verifyOrder()" 
+                    class="w-full bg-gradient-to-r from-purple-600 to-purple-700 text-white font-bold py-3 px-8 rounded-xl hover:from-purple-700 hover:to-purple-800 transition">
+                    验证并查看报告
+                </button>
+            </div>
+            
+            <p class="text-sm text-gray-500 mt-4 text-center">
+                💡 提示：订单号在闲鱼 APP → 我的 → 我买到的 中查看
+            </p>
+        </div>
+
+        <!-- 完整报告内容（验证后显示） -->
+        <div id="report-section" class="hidden">
+            <!-- 报告头部 -->
+            <div class="bg-white rounded-3xl shadow-2xl overflow-hidden mb-6">
+                <div class="gradient-bg p-8 text-center text-white">
+                    <div class="text-6xl mb-4">📊</div>
+                    <h2 class="text-2xl font-bold">职业测试完整报告</h2>
+                    <p class="text-white/80 mt-2">专业版 · 详细分析</p>
+                </div>
+
+                <div class="p-8">
+                    <!-- 报告内容 -->
+                    <div class="prose max-w-none">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <span class="text-2xl mr-2">🎯</span> 一、核心特质分析
+                        </h3>
+                        <div class="bg-purple-50 rounded-xl p-6 mb-6 text-gray-700 leading-relaxed">
+                            <p class="mb-3">根据你的测试答案分析，你展现出明显的 <strong class="text-purple-600">[职业类型]</strong> 特质。</p>
+                            <p class="mb-3">你在以下方面表现突出：</p>
+                            <ul class="list-disc list-inside space-y-2 ml-4">
+                                <li>逻辑思维能力超强，善于从复杂信息中发现规律</li>
+                                <li>喜欢深度钻研，不满足于表面答案</li>
+                                <li>注重事实和证据，决策时依赖数据而非直觉</li>
+                                <li>独立工作能力强，能够自主完成复杂任务</li>
+                            </ul>
+                        </div>
+
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <span class="text-2xl mr-2">💼</span> 二、职业发展建议
+                        </h3>
+                        <div class="bg-blue-50 rounded-xl p-6 mb-6 text-gray-700 leading-relaxed">
+                            <p class="mb-3"><strong class="text-blue-600">短期建议（1-2 年）：</strong></p>
+                            <ul class="list-disc list-inside space-y-2 ml-4 mb-4">
+                                <li>深耕当前领域，建立专业技能壁垒</li>
+                                <li>考取相关行业认证（如数据分析师、PMP 等）</li>
+                                <li>参与 2-3 个完整项目，积累实战经验</li>
+                            </ul>
+                            <p class="mb-3"><strong class="text-blue-600">长期规划（3-5 年）：</strong></p>
+                            <ul class="list-disc list-inside space-y-2 ml-4">
+                                <li>向管理岗或专家岗发展</li>
+                                <li>建立个人品牌和行业影响力</li>
+                                <li>考虑跨界发展，拓展能力边界</li>
+                            </ul>
+                        </div>
+
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <span class="text-2xl mr-2">💰</span> 三、薪资范围参考
+                        </h3>
+                        <div class="bg-green-50 rounded-xl p-6 mb-6 text-gray-700 leading-relaxed">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="text-center p-4 bg-white rounded-lg">
+                                    <p class="text-sm text-gray-500">初级（1-3 年）</p>
+                                    <p class="text-2xl font-bold text-green-600">8-15K</p>
+                                </div>
+                                <div class="text-center p-4 bg-white rounded-lg">
+                                    <p class="text-sm text-gray-500">中级（3-5 年）</p>
+                                    <p class="text-2xl font-bold text-green-600">15-30K</p>
+                                </div>
+                                <div class="text-center p-4 bg-white rounded-lg">
+                                    <p class="text-sm text-gray-500">高级（5 年+）</p>
+                                    <p class="text-2xl font-bold text-green-600">30-60K+</p>
+                                </div>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-4 text-center">* 数据来源于一线城市平均水平，仅供参考</p>
+                        </div>
+
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <span class="text-2xl mr-2">📚</span> 四、学习路径规划
+                        </h3>
+                        <div class="bg-yellow-50 rounded-xl p-6 mb-6 text-gray-700 leading-relaxed">
+                            <div class="space-y-4">
+                                <div class="flex items-start">
+                                    <span class="bg-yellow-500 text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 mr-3">1</span>
+                                    <div>
+                                        <p class="font-bold text-gray-800">基础阶段（1-3 个月）</p>
+                                        <p class="text-sm text-gray-600">学习核心概念和基础工具，完成入门课程</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <span class="bg-yellow-500 text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 mr-3">2</span>
+                                    <div>
+                                        <p class="font-bold text-gray-800">进阶阶段（3-6 个月）</p>
+                                        <p class="text-sm text-gray-600">参与实战项目，建立作品集</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <span class="bg-yellow-500 text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 mr-3">3</span>
+                                    <div>
+                                        <p class="font-bold text-gray-800">精通阶段（6-12 个月）</p>
+                                        <p class="text-sm text-gray-600">深入研究细分领域，建立专业优势</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <span class="text-2xl mr-2">🏢</span> 五、适合行业推荐
+                        </h3>
+                        <div class="bg-pink-50 rounded-xl p-6 mb-6 text-gray-700 leading-relaxed">
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-pink-100 text-pink-800 px-4 py-2 rounded-full text-sm font-medium">互联网/科技</span>
+                                <span class="bg-pink-100 text-pink-800 px-4 py-2 rounded-full text-sm font-medium">金融/咨询</span>
+                                <span class="bg-pink-100 text-pink-800 px-4 py-2 rounded-full text-sm font-medium">数据分析</span>
+                                <span class="bg-pink-100 text-pink-800 px-4 py-2 rounded-full text-sm font-medium">人工智能</span>
+                                <span class="bg-pink-100 text-pink-800 px-4 py-2 rounded-full text-sm font-medium">市场研究</span>
+                                <span class="bg-pink-100 text-pink-800 px-4 py-2 rounded-full text-sm font-medium">教育培训</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 底部按钮 -->
+                    <div class="mt-8 text-center">
+                        <button onclick="window.print()" class="bg-gray-100 text-gray-700 font-bold py-3 px-8 rounded-xl hover:bg-gray-200 transition mr-4">
+                            📥 下载报告
+                        </button>
+                        <a href="https://deryow.github.io/career-test/" class="inline-block bg-gradient-to-r from-purple-600 to-purple-700 text-white font-bold py-3 px-8 rounded-xl hover:from-purple-700 hover:to-purple-800 transition">
+                            🔄 重新测试
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 客服信息 -->
+            <div class="bg-white/90 rounded-2xl shadow-xl p-6 text-center">
+                <p class="text-gray-600 mb-2">💡 如需一对一职业咨询，请添加微信</p>
+                <p class="text-2xl font-bold text-purple-600">AI-Career-2024</p>
+                <p class="text-sm text-gray-500 mt-2">备注"职业咨询"享首单优惠</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function verifyOrder() {
+            const orderId = document.getElementById('order-id').value.trim();
+            if (!orderId) {
+                alert('请输入订单号');
+                return;
+            }
+            // 简单验证：订单号不为空即可（实际可接入闲鱼 API 验证）
+            // 这里为了演示，直接显示报告
+            document.getElementById('verify-section').classList.add('hidden');
+            document.getElementById('report-section').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
