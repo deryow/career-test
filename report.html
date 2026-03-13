@@ -77,10 +77,10 @@
                 <div class="p-8">
                     <!-- 报告内容 -->
                     <div class="prose max-w-none">
-                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center" data-section="traits">
                             <span class="text-2xl mr-2">🎯</span> 一、核心特质分析
                         </h3>
-                        <div class="bg-purple-50 rounded-xl p-6 mb-6 text-gray-700 leading-relaxed">
+                        <div class="bg-purple-50 rounded-xl p-6 mb-6 text-gray-700 leading-relaxed" data-section="traits">
                             <p class="mb-3">根据你的测试答案分析，你展现出明显的 <strong class="text-purple-600">[职业类型]</strong> 特质。</p>
                             <p class="mb-3">你在以下方面表现突出：</p>
                             <ul class="list-disc list-inside space-y-2 ml-4">
@@ -159,10 +159,10 @@
                             </div>
                         </div>
 
-                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center" data-section="fields">
                             <span class="text-2xl mr-2">🏢</span> 五、适合行业推荐
                         </h3>
-                        <div class="bg-pink-50 rounded-xl p-6 mb-6 text-gray-700 leading-relaxed">
+                        <div class="bg-pink-50 rounded-xl p-6 mb-6 text-gray-700 leading-relaxed" data-section="fields">
                             <div class="flex flex-wrap gap-2">
                                 <span class="bg-pink-100 text-pink-800 px-4 py-2 rounded-full text-sm font-medium">互联网/科技</span>
                                 <span class="bg-pink-100 text-pink-800 px-4 py-2 rounded-full text-sm font-medium">金融/咨询</span>
@@ -196,17 +196,111 @@
     </div>
 
     <script>
-        // 检查是否已经验证过
+        let currentResultId = null;
+        let currentToken = null;
+        
+        // 页面加载时检查 URL 参数
         window.addEventListener('DOMContentLoaded', function() {
+            const params = new URLSearchParams(window.location.search);
+            currentToken = params.get('token');
+            currentResultId = params.get('result_id');
+            
+            // 如果有 token，直接获取报告
+            if (currentToken && currentResultId) {
+                loadPersonalizedReport();
+                return;
+            }
+            
+            // 检查是否已经验证过
             const verified = localStorage.getItem('reportVerified');
-            if (verified === 'true') {
-                // 已经验证过，直接显示报告
-                document.getElementById('verify-section').classList.add('hidden');
-                document.getElementById('report-section').classList.remove('hidden');
+            const savedResultId = localStorage.getItem('careerResultId');
+            if (verified === 'true' && savedResultId) {
+                currentResultId = savedResultId;
+                loadPersonalizedReport();
             }
         });
         
-        function verifyOrder() {
+        async function loadPersonalizedReport() {
+            if (!currentToken || !currentResultId) {
+                console.error('缺少 token 或 result_id');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/api/get-report?token=${currentToken}&result_id=${currentResultId}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    // 显示个性化报告
+                    displayPersonalizedReport(data.report);
+                } else {
+                    alert('报告加载失败：' + (data.error || '未知错误'));
+                }
+            } catch (e) {
+                console.error('加载报告失败:', e);
+                alert('网络错误，请刷新重试');
+            }
+        }
+        
+        function displayPersonalizedReport(report) {
+            // 更新报告内容
+            const careerName = report.career_name || '未知职业';
+            const careerDesc = report.career_description || '';
+            const traits = report.career_traits || [];
+            const fields = report.career_fields || [];
+            
+            // 更新头部
+            const headerDiv = document.querySelector('#report-section .gradient-bg');
+            if (headerDiv) {
+                headerDiv.innerHTML = `
+                    <div class="text-6xl mb-4">🎯</div>
+                    <h2 class="text-2xl font-bold">你的天选职业</h2>
+                    <p class="text-4xl font-bold mt-4">${careerName}</p>
+                    <p class="text-white/80 mt-2">完整分析报告</p>
+                `;
+            }
+            
+            // 更新核心特质
+            const traitsSection = document.querySelector('[data-section="traits"]');
+            if (traitsSection) {
+                traitsSection.innerHTML = `
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="text-2xl mr-2">🎯</span> 一、核心特质分析
+                    </h3>
+                    <div class="bg-purple-50 rounded-xl p-6 mb-6 text-gray-700 leading-relaxed">
+                        <p class="mb-3">${careerDesc}</p>
+                        <p class="mb-3"><strong class="text-purple-600">你的核心特质：</strong></p>
+                        <ul class="list-disc list-inside space-y-2 ml-4">
+                            ${traits.map(t => `<li>${t}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+            
+            // 更新适合领域
+            const fieldsSection = document.querySelector('[data-section="fields"]');
+            if (fieldsSection) {
+                fieldsSection.innerHTML = `
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="text-2xl mr-2">🏢</span> 五、适合行业推荐
+                    </h3>
+                    <div class="bg-pink-50 rounded-xl p-6 mb-6 text-gray-700 leading-relaxed">
+                        <div class="flex flex-wrap gap-2">
+                            ${fields.map(f => `<span class="bg-pink-100 text-pink-800 px-4 py-2 rounded-full text-sm font-medium">${f}</span>`).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // 隐藏验证入口，显示报告
+            document.getElementById('verify-section').classList.add('hidden');
+            document.getElementById('report-section').classList.remove('hidden');
+            
+            // 滚动到顶部
+            window.scrollTo(0, 0);
+        }
+        
+        async function verifyOrder() {
             const orderId = document.getElementById('order-id').value.trim();
             if (!orderId) {
                 alert('请输入订单号');
@@ -216,15 +310,40 @@
                 alert('订单号格式不正确，请检查后重试');
                 return;
             }
-            // 简单验证：订单号不为空即可（实际可接入闲鱼 API 验证）
-            // 这里为了演示，直接显示报告
-            localStorage.setItem('reportVerified', 'true');
-            localStorage.setItem('orderId', orderId);
-            document.getElementById('verify-section').classList.add('hidden');
-            document.getElementById('report-section').classList.remove('hidden');
             
-            // 滚动到顶部
-            window.scrollTo(0, 0);
+            // 获取结果 ID
+            const resultId = currentResultId || localStorage.getItem('careerResultId');
+            if (!resultId) {
+                alert('未找到测试结果，请重新完成测试');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/verify-order', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        order_id: orderId,
+                        result_id: resultId
+                    })
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    // 验证成功，保存状态
+                    localStorage.setItem('reportVerified', 'true');
+                    localStorage.setItem('orderId', orderId);
+                    
+                    // 加载个性化报告
+                    currentToken = data.token;
+                    await loadPersonalizedReport();
+                } else {
+                    alert('验证失败：' + (data.error || '未知错误') + '\n\n' + (data.help || ''));
+                }
+            } catch (e) {
+                console.error('验证失败:', e);
+                alert('网络错误，请刷新重试');
+            }
         }
     </script>
 </body>

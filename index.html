@@ -368,7 +368,7 @@
             }
         }
 
-        function showResult() {
+        async function showResult() {
             // 计算结果
             const counts = {};
             answers.forEach(type => {
@@ -376,6 +376,34 @@
             });
             const resultType = Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0];
             const career = careers[resultType];
+
+            // 保存到后端
+            let resultId = null;
+            let reportUrl = null;
+            try {
+                const response = await fetch('/api/save-result', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        answers: answers,
+                        result_type: resultType,
+                        career_name: career.name,
+                        career_description: career.description,
+                        career_traits: career.traits,
+                        career_fields: career.fields
+                    })
+                });
+                const data = await response.json();
+                if (data.success) {
+                    resultId = data.result_id;
+                    reportUrl = data.report_url;
+                    // 保存到 localStorage，方便后续访问
+                    localStorage.setItem('careerResultId', resultId);
+                    localStorage.setItem('careerReportUrl', reportUrl);
+                }
+            } catch (e) {
+                console.error('保存结果失败:', e);
+            }
 
             document.getElementById('quiz-page').classList.add('hidden');
             document.getElementById('result-page').classList.remove('hidden');
@@ -386,12 +414,28 @@
             document.getElementById('career-fields').innerHTML = career.fields.map(f => 
                 `<span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">${f}</span>`
             ).join('');
+            
+            // 更新购买按钮，绑定结果 ID
+            const buyBtns = document.querySelectorAll('[onclick="unlockReport()"]');
+            buyBtns.forEach(btn => {
+                btn.setAttribute('data-result-id', resultId || '');
+            });
         }
 
         function unlockReport() {
-            // 跳转到闲鱼商品页面
+            // 获取结果 ID
+            const resultId = localStorage.getItem('careerResultId');
             const xianyuUrl = 'https://m.tb.cn/h.iezqisc?tk=kX4xUwBWLrQ';
+            
+            // 打开闲鱼
             window.open(xianyuUrl, '_blank');
+            
+            // 显示提示
+            if (resultId) {
+                alert('🎉 感谢购买！\n\n付款后请访问：\n' + window.location.origin + '/report.html\n\n输入订单号即可查看你的专属报告');
+            } else {
+                alert('🎉 感谢购买！\n\n请先完成测试获取结果 ID\n\n付款后访问报告页面，输入订单号即可查看完整报告');
+            }
         }
 
         function shareResult() {
