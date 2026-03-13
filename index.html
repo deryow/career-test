@@ -134,13 +134,33 @@
                     <h3 class="text-xl font-bold text-gray-800 mb-2">🔓 解锁完整报告</h3>
                     <p class="text-gray-600 mb-4">包含：详细分析 + 发展建议 + 薪资范围 + 学习路径</p>
                     
+                    <!-- 专属报告链接（付款后使用） -->
+                    <div class="bg-yellow-50 border-2 border-yellow-300 rounded-lg p-4 mb-4 text-left">
+                        <p class="font-bold text-yellow-800 mb-2">🎯 你的专属报告链接：</p>
+                        <div class="bg-white rounded border border-yellow-200 p-2 mb-2">
+                            <code id="report-link" class="text-xs text-gray-600 break-all">加载中...</code>
+                        </div>
+                        <button onclick="copyReportLink()" class="text-xs bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 transition">
+                            📋 复制链接（付款后访问）
+                        </button>
+                        <p class="text-xs text-yellow-700 mt-2">
+                            💡 建议截图保存，付款后直接访问此链接查看完整报告
+                        </p>
+                    </div>
+                    
+                    <!-- 结果 ID（备用验证） -->
+                    <div class="bg-gray-50 rounded-lg p-3 mb-4">
+                        <p class="text-xs text-gray-600 mb-1">结果 ID（备用验证）：</p>
+                        <code id="result-id-display" class="text-lg font-mono text-purple-600 font-bold">----</code>
+                    </div>
+                    
                     <div class="bg-white rounded-lg p-4 mb-4 text-left text-sm text-gray-700">
                         <p class="font-bold mb-2">📝 购买步骤：</p>
                         <ol class="list-decimal list-inside space-y-1">
-                            <li>点击下方按钮前往闲鱼</li>
+                            <li>点击「去闲鱼购买」按钮</li>
                             <li>支付 ¥1.1 购买报告</li>
-                            <li>复制订单号（在闲鱼「我买到的」查看）</li>
-                            <li>返回本站，点击「输入订单号查看报告」</li>
+                            <li><strong class="text-purple-600">复制订单号</strong>（闲鱼→我的→我买到的）</li>
+                            <li>访问上方专属链接，输入订单号验证</li>
                         </ol>
                     </div>
                     
@@ -380,6 +400,7 @@
             // 保存到后端
             let resultId = null;
             let reportUrl = null;
+            let fullReportUrl = null;
             try {
                 const response = await fetch('/api/save-result', {
                     method: 'POST',
@@ -397,12 +418,19 @@
                 if (data.success) {
                     resultId = data.result_id;
                     reportUrl = data.report_url;
+                    fullReportUrl = window.location.origin + reportUrl;
                     // 保存到 localStorage，方便后续访问
                     localStorage.setItem('careerResultId', resultId);
                     localStorage.setItem('careerReportUrl', reportUrl);
+                    localStorage.setItem('careerFullReportUrl', fullReportUrl);
+                    
+                    // 显示专属链接
+                    document.getElementById('report-link').textContent = fullReportUrl;
+                    document.getElementById('result-id-display').textContent = resultId;
                 }
             } catch (e) {
                 console.error('保存结果失败:', e);
+                document.getElementById('report-link').textContent = '保存失败，请刷新重试';
             }
 
             document.getElementById('quiz-page').classList.add('hidden');
@@ -420,6 +448,20 @@
             buyBtns.forEach(btn => {
                 btn.setAttribute('data-result-id', resultId || '');
             });
+        }
+        
+        function copyReportLink() {
+            const link = localStorage.getItem('careerFullReportUrl');
+            if (link) {
+                navigator.clipboard.writeText(link).then(() => {
+                    alert('✅ 链接已复制！\n\n付款后在浏览器打开此链接，输入订单号即可查看完整报告');
+                }).catch(() => {
+                    // 降级方案
+                    prompt('请手动复制链接：', link);
+                });
+            } else {
+                alert('❌ 链接未找到，请刷新页面重试');
+            }
         }
 
         function unlockReport() {

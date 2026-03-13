@@ -21,6 +21,25 @@
                 <p class="text-gray-600">请输入闲鱼订单号查看你的专属职业分析</p>
             </div>
             
+            <!-- 场景 1：通过专属链接访问，自动填充结果 ID -->
+            <div id="auto-fill-notice" class="hidden bg-green-50 border-2 border-green-300 rounded-xl p-4 mb-6">
+                <p class="font-bold text-green-800 mb-2">✅ 已识别你的测试结果</p>
+                <p class="text-sm text-green-700">
+                    结果 ID：<code id="auto-result-id" class="font-mono font-bold"></code>
+                </p>
+                <p class="text-xs text-green-600 mt-2">只需输入订单号即可验证</p>
+            </div>
+            
+            <!-- 场景 2：手动输入结果 ID -->
+            <div id="manual-result-section" class="hidden bg-gray-50 rounded-xl p-4 mb-6">
+                <p class="font-bold text-gray-800 mb-2">📋 结果 ID（可选）</p>
+                <input type="text" id="manual-result-id" placeholder="如：A1B2C3D4（测试完成后显示）" 
+                    class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none text-sm font-mono">
+                <p class="text-xs text-gray-500 mt-2">
+                    💡 如果有结果 ID 请填入，没有可留空（会从浏览器缓存读取）
+                </p>
+            </div>
+            
             <!-- 步骤指引 -->
             <div class="bg-purple-50 rounded-xl p-6 mb-6">
                 <p class="font-bold text-purple-800 mb-3">📍 如何找到订单号？</p>
@@ -205,18 +224,42 @@
             currentToken = params.get('token');
             currentResultId = params.get('result_id');
             
-            // 如果有 token，直接获取报告
+            // 场景 1：通过专属链接访问（带 token）
             if (currentToken && currentResultId) {
-                loadPersonalizedReport();
+                // 显示自动填充提示
+                document.getElementById('auto-fill-notice').classList.remove('hidden');
+                document.getElementById('auto-result-id').textContent = currentResultId;
+                document.getElementById('manual-result-section').classList.add('hidden');
+                
+                // 检查是否已验证过
+                const verifiedOrderId = localStorage.getItem('careerVerifiedOrderId');
+                if (verifiedOrderId) {
+                    // 已经验证过，直接显示报告
+                    document.getElementById('order-id').value = verifiedOrderId;
+                    setTimeout(() => verifyOrder(), 500);
+                    return;
+                }
                 return;
+            }
+            
+            // 场景 2：手动访问，检查浏览器缓存
+            const savedResultId = localStorage.getItem('careerResultId');
+            if (savedResultId) {
+                currentResultId = savedResultId;
+                document.getElementById('auto-fill-notice').classList.remove('hidden');
+                document.getElementById('auto-result-id').textContent = savedResultId;
+                document.getElementById('manual-result-section').classList.add('hidden');
+            } else {
+                // 没有缓存，显示手动输入框
+                document.getElementById('manual-result-section').classList.remove('hidden');
             }
             
             // 检查是否已经验证过
             const verified = localStorage.getItem('reportVerified');
-            const savedResultId = localStorage.getItem('careerResultId');
-            if (verified === 'true' && savedResultId) {
-                currentResultId = savedResultId;
-                loadPersonalizedReport();
+            const verifiedOrderId = localStorage.getItem('careerVerifiedOrderId');
+            if (verified === 'true' && savedResultId && verifiedOrderId) {
+                document.getElementById('order-id').value = verifiedOrderId;
+                setTimeout(() => verifyOrder(), 500);
             }
         });
         
@@ -311,8 +354,17 @@
                 return;
             }
             
-            // 获取结果 ID
-            const resultId = currentResultId || localStorage.getItem('careerResultId');
+            // 获取结果 ID：优先使用 URL 参数，其次手动输入，最后缓存
+            let resultId = currentResultId;
+            if (!resultId) {
+                const manualInput = document.getElementById('manual-result-id').value.trim();
+                if (manualInput) {
+                    resultId = manualInput;
+                } else {
+                    resultId = localStorage.getItem('careerResultId');
+                }
+            }
+            
             if (!resultId) {
                 alert('未找到测试结果，请重新完成测试');
                 return;
@@ -332,7 +384,7 @@
                 if (data.success) {
                     // 验证成功，保存状态
                     localStorage.setItem('reportVerified', 'true');
-                    localStorage.setItem('orderId', orderId);
+                    localStorage.setItem('careerVerifiedOrderId', orderId);
                     
                     // 加载个性化报告
                     currentToken = data.token;
