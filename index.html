@@ -94,55 +94,70 @@
                     </ol>
                 </div>
 
-                <!-- 免费体验密钥 -->
-                <div class="bg-green-50 border-2 border-green-300 rounded-xl p-4 mb-6">
-                    <div class="flex items-center mb-3">
-                        <span class="text-2xl mr-2">🎁</span>
-                        <p class="font-bold text-green-800">免费体验密钥</p>
-                    </div>
-                    <p class="text-sm text-green-700 mb-3">
-                        每日限量发放，先到先得！每人限用一次~
-                    </p>
-                    <div class="space-y-2">
-                        <div class="flex items-center bg-white rounded-lg p-2 border border-green-200">
-                            <code id="free-key-1" class="text-sm font-mono text-purple-600 flex-1">加载中...</code>
-                            <button onclick="copyKey('free-key-1')" class="ml-2 text-xs bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 transition">
-                                复制
-                            </button>
-                        </div>
-                        <div class="flex items-center bg-white rounded-lg p-2 border border-green-200">
-                            <code id="free-key-2" class="text-sm font-mono text-purple-600 flex-1">加载中...</code>
-                            <button onclick="copyKey('free-key-2')" class="ml-2 text-xs bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 transition">
-                                复制
-                            </button>
-                        </div>
-                        <div class="flex items-center bg-white rounded-lg p-2 border border-green-200">
-                            <code id="free-key-3" class="text-sm font-mono text-purple-600 flex-1">加载中...</code>
-                            <button onclick="copyKey('free-key-3')" class="ml-2 text-xs bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 transition">
-                                复制
-                            </button>
-                        </div>
-                    </div>
-                    <p class="text-xs text-green-600 mt-2">
-                        💡 复制后粘贴到下方输入框，立即开始测试
-                    </p>
-                </div>
-
-                <!-- 密钥输入框 -->
+                <!-- 密钥输入区域（整合免费密钥和输入框） -->
                 <div class="mb-6">
-                    <label class="block text-sm font-medium text-gray-700 mb-2 text-left">
-                        已有密钥？输入后开始测试
+                    <label class="block text-sm font-medium text-gray-700 mb-3 text-left">
+                        输入密钥开始测试
                     </label>
-                    <input type="text" id="access-key-input" placeholder="CAREER-XXXX-XXXX" 
-                        class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none text-lg text-center font-mono tracking-wider uppercase"
-                        style="letter-spacing: 2px;">
+                    
+                    <!-- 密钥输入框 + 开始按钮（一行布局） -->
+                    <div class="flex gap-3 mb-4">
+                        <input type="text" id="access-key-input" placeholder="CAREER-XXXX-XXXX" 
+                            class="flex-1 px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none text-base font-mono tracking-wider uppercase text-center"
+                            style="letter-spacing: 1px;">
+                        <button onclick="verifyKeyAndStart()" class="bg-gradient-to-r from-purple-600 to-purple-700 text-white font-bold py-3 px-6 rounded-xl hover:from-purple-700 hover:to-purple-800 transition whitespace-nowrap">
+                            开始测试
+                        </button>
+                    </div>
+                    
+                    <!-- 分隔线 -->
+                    <div class="relative mb-4">
+                        <div class="absolute inset-0 flex items-center">
+                            <div class="w-full border-t border-gray-200"></div>
+                        </div>
+                        <div class="relative flex justify-center text-xs text-gray-500">
+                            <span class="px-4 bg-white">或</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 免费体验密钥 -->
+                    <div class="bg-green-50 border-2 border-green-300 rounded-xl p-4">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center">
+                                <span class="text-xl mr-2">🎁</span>
+                                <p class="font-bold text-green-800 text-sm">免费体验密钥</p>
+                            </div>
+                            <p class="text-xs text-green-600">每日限量 · 先到先得</p>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+                            <div class="flex items-center bg-white rounded-lg p-2 border border-green-200">
+                                <code id="free-key-1" class="text-xs font-mono text-purple-600 flex-1 truncate">加载中...</code>
+                                <button onclick="copyKey('free-key-1')" class="ml-2 text-xs bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 transition flex-shrink-0">
+                                    复制
+                                </button>
+                            </div>
+                            <div class="flex items-center bg-white rounded-lg p-2 border border-green-200">
+                                <code id="free-key-2" class="text-xs font-mono text-purple-600 flex-1 truncate">加载中...</code>
+                                <button onclick="copyKey('free-key-2')" class="ml-2 text-xs bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 transition flex-shrink-0">
+                                    复制
+                                </button>
+                            </div>
+                            <div class="flex items-center bg-white rounded-lg p-2 border border-green-200">
+                                <code id="free-key-3" class="text-xs font-mono text-purple-600 flex-1 truncate">加载中...</code>
+                                <button onclick="copyKey('free-key-3')" class="ml-2 text-xs bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 transition flex-shrink-0">
+                                    复制
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <p class="text-xs text-green-600 mt-2 text-center">
+                            💡 点击复制后，密钥会自动填充到上方输入框
+                        </p>
+                    </div>
                 </div>
 
-                <button onclick="verifyKeyAndStart()" class="w-full bg-gradient-to-r from-purple-600 to-purple-700 text-white text-xl font-bold py-4 px-8 rounded-xl hover:from-purple-700 hover:to-purple-800 transition transform hover:scale-105 shadow-lg mb-4">
-                    输入密钥 开始测试
-                </button>
-
-                <button onclick="goToXianyu()" class="w-full bg-white border-2 border-purple-300 text-purple-700 font-bold py-3 px-8 rounded-xl hover:bg-purple-50 transition">
+                <button onclick="goToXianyu()" class="w-full bg-white border-2 border-purple-300 text-purple-700 font-bold py-3 px-8 rounded-xl hover:bg-purple-50 transition mb-4">
                     🛒 去购买测试资格
                 </button>
 
@@ -461,20 +476,24 @@
             fetch('/api/get-free-keys')
                 .then(res => res.json())
                 .then(data => {
-                    if (data.success && data.keys.length > 0) {
+                    console.log('获取免费密钥:', data);
+                    if (data.success && data.keys && data.keys.length > 0) {
                         // 显示 3 个密钥
                         for (let i = 0; i < 3; i++) {
                             const keyElement = document.getElementById(`free-key-${i + 1}`);
                             if (keyElement && data.keys[i]) {
                                 keyElement.textContent = data.keys[i];
+                            } else if (keyElement) {
+                                keyElement.textContent = '暂无可用';
                             }
                         }
                     } else {
-                        // API 失败时显示默认密钥
+                        // API 返回空时显示默认密钥
                         showDefaultFreeKeys();
                     }
                 })
-                .catch(() => {
+                .catch((err) => {
+                    console.error('加载免费密钥失败:', err);
                     showDefaultFreeKeys();
                 });
         }
@@ -491,14 +510,72 @@
         }
         
         function copyKey(elementId) {
-            const keyText = document.getElementById(elementId).textContent;
-            navigator.clipboard.writeText(keyText).then(() => {
-                // 自动填充到输入框
-                document.getElementById('access-key-input').value = keyText;
-                alert('✅ 密钥已复制并自动填充！\n\n点击下方「输入密钥 开始测试」按钮即可');
-            }).catch(() => {
+            const keyElement = document.getElementById(elementId);
+            const keyText = keyElement ? keyElement.textContent.trim() : '';
+            
+            if (!keyText || keyText === '加载中...') {
+                alert('⏳ 密钥加载中，请稍后再试');
+                return;
+            }
+            
+            // 复制到剪贴板
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(keyText).then(() => {
+                    // 自动填充到输入框
+                    const inputElement = document.getElementById('access-key-input');
+                    if (inputElement) {
+                        inputElement.value = keyText;
+                        inputElement.focus();
+                    }
+                    // 显示成功提示（使用更友好的方式）
+                    showCopySuccess(keyText);
+                }).catch((err) => {
+                    console.error('复制失败:', err);
+                    fallbackCopy(keyText);
+                });
+            } else {
+                // 降级方案
+                fallbackCopy(keyText);
+            }
+        }
+        
+        function showCopySuccess(keyText) {
+            // 创建临时提示元素
+            const toast = document.createElement('div');
+            toast.className = 'fixed top-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-xl shadow-lg z-50 animate-bounce';
+            toast.innerHTML = '✅ 已复制！<br><span class="text-xs">密钥已自动填充到输入框</span>';
+            document.body.appendChild(toast);
+            
+            // 3 秒后移除
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+        
+        function fallbackCopy(keyText) {
+            // 创建临时 textarea
+            const textarea = document.createElement('textarea');
+            textarea.value = keyText;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            
+            try {
+                document.execCommand('copy');
+                // 自动填充
+                const inputElement = document.getElementById('access-key-input');
+                if (inputElement) {
+                    inputElement.value = keyText;
+                    inputElement.focus();
+                }
+                showCopySuccess(keyText);
+            } catch (err) {
+                console.error('复制失败:', err);
                 prompt('请手动复制密钥：', keyText);
-            });
+            }
+            
+            document.body.removeChild(textarea);
         }
 
         function startQuiz() {
