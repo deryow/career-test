@@ -321,6 +321,15 @@
             answers[currentQuestion] = questions[currentQuestion].options[idx].type;
             // 显示下一题按钮
             document.getElementById('next-btn').classList.remove('hidden');
+            // 自动跳转到下一题（延迟 300ms 让用户看到选择效果）
+            setTimeout(() => {
+                if (currentQuestion < questions.length - 1) {
+                    nextQuestion();
+                } else {
+                    // 最后一题，显示结果
+                    showResult();
+                }
+            }, 300);
         }
 
         function nextQuestion() {
